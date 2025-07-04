@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relatório por Departamento</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar img {
+            width: 200px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #0055a5;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="logo.jpg" alt="SmartTarget Logo">
+        <a href="home.html">Início</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="empresas.html">Empresas</a>
+        <a href="departamentos.html">Departamentos</a>
+        <a href="cargos.html">Cargos</a>
+        <a href="okrs.html">OKRs</a>
+        <a href="kpis.html">KPIs</a>
+        <a href="vinculos.html">Vincular OKRs x KPIs</a>
+        <a href="relatorio_departamento.html">Relatório por Departamento</a>
+        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
+    </div>
+    <div class="content">
+        <h2>Relatório por Departamento</h2>
+        
+    <div id="relatorio"></div>
+    
+    </div>
+</body>
+</html>
+
+<script>
+    function carregar() {
+        let dados = JSON.parse(localStorage.getItem('KPIs') || '[]');
+        let container = document.getElementById('relatorio');
+        container.innerHTML = '';
+
+        if (dados.length > 0) {
+            let tabela = document.createElement('table');
+            tabela.border = 1;
+            tabela.style.borderCollapse = 'collapse';
+
+            let head = tabela.insertRow();
+            head.insertCell().innerText = "Departamento";
+            head.insertCell().innerText = "OKR";
+            head.insertCell().innerText = "KPI";
+            head.insertCell().innerText = "Valor Alvo";
+
+            dados.forEach(item => {
+                let row = tabela.insertRow();
+                row.insertCell().innerText = item.Departamento || 'N/A';
+                row.insertCell().innerText = item["OKR Relacionado"] || 'N/A';
+                row.insertCell().innerText = item.Meta || 'N/A';
+                row.insertCell().innerText = item["Valor Alvo"] || 'N/A';
+            });
+
+            container.appendChild(tabela);
+        } else {
+            container.innerHTML = "<i>Nenhum dado encontrado</i>";
+        }
+    }
+
+    window.onload = carregar;
+</script>

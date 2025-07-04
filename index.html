@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - SmarTarget</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .left-panel {
+            background-color: #003366;
+            color: white;
+            padding: 40px;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .left-panel img {
+            width: 150px;
+            margin-bottom: 30px;
+        }
+        .left-panel h2 {
+            font-size: 28px;
+        }
+        .left-panel input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        .left-panel button {
+            padding: 10px 20px;
+            background-color: white;
+            color: #003366;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .left-panel a {
+            color: white;
+            font-size: 14px;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+        .right-panel {
+            flex-grow: 1;
+            background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <script>
+        function login() {
+            var user = document.getElementById('user').value;
+            var pass = document.getElementById('pass').value;
+            if ((user === 'admin' && pass === 'admin') || localStorage.getItem(user) === pass) {
+                window.location.href = 'home.html';
+            } else {
+                alert('Login inválido');
+            }
+        }
+        function goToRegister() {
+            window.location.href = 'register.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="left-panel">
+        <img src="logo.jpg" alt="SmartTarget Logo">
+        <h2>Faça login</h2>
+        <input id="user" placeholder="Usuário" value="admin">
+        <input id="pass" type="password" placeholder="Senha" value="admin">
+        <button onclick="login()">Entrar</button>
+        <a href="#" onclick="goToRegister()">Não tem uma conta? Cadastre-se</a>
+    </div>
+    <div class="right-panel"></div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Empresas</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar img {
+            width: 200px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #0055a5;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="logo.jpg" alt="SmartTarget Logo">
+        <a href="home.html">Início</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="empresas.html">Empresas</a>
+        <a href="departamentos.html">Departamentos</a>
+        <a href="cargos.html">Cargos</a>
+        <a href="okrs.html">OKRs</a>
+        <a href="kpis.html">KPIs</a>
+        <a href="vinculos.html">Vincular OKRs x KPIs</a>
+        <a href="relatorio_departamento.html">Relatório por Departamento</a>
+        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
+    </div>
+    <div class="content">
+        <h2>Empresas</h2>
+        <label>Nome da Empresa:</label><input id="Nome da Empresa" placeholder="Nome da Empresa"><br><label>CNPJ:</label><input id="CNPJ" placeholder="CNPJ"><br><br><button onclick='salvar()'>Salvar</button><div id='dados'></div>
+    </div>
+</body>
+</html>
+
+        <script>
+            function salvar() {
+                let registros = JSON.parse(localStorage.getItem('Empresas') || '[]');
+                let novo = {
+                    "Nome da Empresa": document.getElementById("Nome da Empresa").value, "CNPJ": document.getElementById("CNPJ").value
+                };
+                registros.push(novo);
+                localStorage.setItem('Empresas', JSON.stringify(registros));
+                alert("Empresas salvo com sucesso!");
+                listar();
+            }
+
+            function listar() {
+                let registros = JSON.parse(localStorage.getItem('Empresas') || '[]');
+                let container = document.getElementById('dados');
+                container.innerHTML = '';
+
+                if (registros.length > 0) {
+                    let tabela = document.createElement('table');
+                    tabela.border = 1;
+                    tabela.style.borderCollapse = 'collapse';
+                    tabela.style.marginTop = '10px';
+
+                    let thead = tabela.createTHead();
+                    let headRow = thead.insertRow();
+                    headRow.insertCell().innerText = 'Nome da Empresa';headRow.insertCell().innerText = 'CNPJ';
+
+                    registros.forEach(r => {
+                        let row = tabela.insertRow();
+                        row.insertCell().innerText = r['Nome da Empresa'] || ''; row.insertCell().innerText = r['CNPJ'] || ''; 
+                    });
+
+                    container.appendChild(tabela);
+                } else {
+                    container.innerHTML = '<i>Nenhum dado encontrado</i>';
+                }
+            }
+
+            window.onload = listar;
+        </script>
+        

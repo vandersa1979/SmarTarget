@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard de Metas</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar img {
+            width: 200px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #0055a5;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="logo.jpg" alt="SmartTarget Logo">
+        <a href="home.html">Início</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="empresas.html">Empresas</a>
+        <a href="departamentos.html">Departamentos</a>
+        <a href="cargos.html">Cargos</a>
+        <a href="okrs.html">OKRs</a>
+        <a href="kpis.html">KPIs</a>
+        <a href="vinculos.html">Vincular OKRs x KPIs</a>
+        <a href="relatorio_departamento.html">Relatório por Departamento</a>
+        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
+    </div>
+    <div class="content">
+        <h2>Dashboard de Metas</h2>
+        
+    <canvas id="graficoProgresso" width="600" height="300"></canvas>
+    <canvas id="graficoDepartamentos" width="600" height="300" style="margin-top: 40px;"></canvas>
+    <canvas id="graficoKpisPorPessoa" width="600" height="300" style="margin-top: 40px;"></canvas>
+    
+    </div>
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function gerarDashboard() {
+        const okrs = JSON.parse(localStorage.getItem("OKRs") || "[]");
+        const kpis = JSON.parse(localStorage.getItem("KPIs") || "[]");
+        const usuarios = JSON.parse(localStorage.getItem("Usuários") || "[]");
+
+        // 1. Gráfico de Progresso dos OKRs
+        const ctx1 = document.getElementById("graficoProgresso").getContext("2d");
+        new Chart(ctx1, {
+            type: "bar",
+            data: {
+                labels: okrs.map(o => o.Objetivo),
+                datasets: [{
+                    label: "Progresso (%)",
+                    data: okrs.map(o => parseInt(o.Progresso || 0)),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Progresso dos OKRs"
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // 2. Gráfico de KPIs por Departamento
+        let deptoContagem = {};
+        kpis.forEach(k => {
+            const dpto = k.Departamento || "N/A";
+            deptoContagem[dpto] = (deptoContagem[dpto] || 0) + 1;
+        });
+        const ctx2 = document.getElementById("graficoDepartamentos").getContext("2d");
+        new Chart(ctx2, {
+            type: "pie",
+            data: {
+                labels: Object.keys(deptoContagem),
+                datasets: [{
+                    label: "KPIs por Departamento",
+                    data: Object.values(deptoContagem)
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Distribuição de KPIs por Departamento"
+                    }
+                }
+            }
+        });
+
+        // 3. Gráfico de KPIs por Pessoa
+        let pessoaContagem = {};
+        kpis.forEach(k => {
+            const nome = k.Responsável || "N/A";
+            pessoaContagem[nome] = (pessoaContagem[nome] || 0) + 1;
+        });
+        const ctx3 = document.getElementById("graficoKpisPorPessoa").getContext("2d");
+        new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: Object.keys(pessoaContagem),
+                datasets: [{
+                    label: "KPIs atribuídos",
+                    data: Object.values(pessoaContagem),
+                    fill: false,
+                    borderColor: "blue",
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "KPIs por Pessoa"
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = gerarDashboard;
+</script>

@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carregar Dados de Exemplo</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar img {
+            width: 200px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #0055a5;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="logo.jpg" alt="SmartTarget Logo">
+        <a href="home.html">Início</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="empresas.html">Empresas</a>
+        <a href="departamentos.html">Departamentos</a>
+        <a href="cargos.html">Cargos</a>
+        <a href="okrs.html">OKRs</a>
+        <a href="kpis.html">KPIs</a>
+        <a href="vinculos.html">Vincular OKRs x KPIs</a>
+        <a href="relatorio_departamento.html">Relatório por Departamento</a>
+        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
+    </div>
+    <div class="content">
+        <h2>Carregar Dados de Exemplo</h2>
+        <p>Carregando dados...</p>
+    </div>
+</body>
+</html>
+<script>
+localStorage.setItem('Usuários', JSON.stringify([{'Nome': 'Carlos Silva', 'Email': 'carlos@empresa.com', 'Empresa': 'MetaCorp', 'Telefone': '11999999999', 'Cargo': 'Gerente', 'Departamento': 'Comercial'}, {'Nome': 'Fernanda Lima', 'Email': 'fernanda@empresa.com', 'Empresa': 'MetaCorp', 'Telefone': '11888888888', 'Cargo': 'Diretora', 'Departamento': 'Financeiro'}]));
+localStorage.setItem('Empresas', JSON.stringify([{'Nome da Empresa': 'MetaCorp', 'CNPJ': '12.345.678/0001-99'}]));
+localStorage.setItem('Departamentos', JSON.stringify([{'Nome do Departamento': 'Comercial', 'Empresa': 'MetaCorp'}, {'Nome do Departamento': 'Financeiro', 'Empresa': 'MetaCorp'}]));
+localStorage.setItem('Cargos', JSON.stringify([{'Nome do Cargo': 'Gerente', 'Departamento': 'Comercial'}, {'Nome do Cargo': 'Diretora', 'Departamento': 'Financeiro'}]));
+localStorage.setItem('OKRs', JSON.stringify([{'Objetivo': 'Aumentar Receita', 'Departamento': 'Comercial', 'Responsável': 'Fernanda Lima', 'Data Início': '2025-07-01', 'Data Fim': '2025-12-31', 'Progresso': '20'}]));
+localStorage.setItem('KPIs', JSON.stringify([{'Meta': 'Fechar 10 novos contratos', 'OKR Relacionado': 'Aumentar Receita', 'Responsável': 'Carlos Silva', 'Valor Alvo': '10', 'Unidade': 'contratos', 'Data Limite': '2025-09-30', 'Departamento': 'Comercial'}]));
+localStorage.setItem('Vínculo OKR x KPI', JSON.stringify([{'OKR': 'Aumentar Receita', 'KPI': 'Fechar 10 novos contratos'}]));
+alert('Dados de exemplo carregados com sucesso!'); window.location.href = 'home.html';
+</script>

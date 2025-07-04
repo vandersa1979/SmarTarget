@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro</title>
+    <script>
+        function register() {
+            var user = document.getElementById('user').value;
+            var pass = document.getElementById('pass').value;
+            var email = document.getElementById('email').value;
+            var empresa = document.getElementById('empresa').value;
+            var telefone = document.getElementById('telefone').value;
+            localStorage.setItem(user, pass);
+            alert('Cadastro realizado com sucesso');
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <h2>Cadastro</h2>
+    <input id="user" placeholder="Nome"><br>
+    <input id="email" placeholder="Email"><br>
+    <input id="empresa" placeholder="Empresa"><br>
+    <input id="telefone" placeholder="Telefone"><br>
+    <input id="pass" type="password" placeholder="Senha"><br>
+    <button onclick="register()">Cadastrar</button>
+</body>
+</html>
