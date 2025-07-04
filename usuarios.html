@@ -1,102 +1,198 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Usuários</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #003366;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-        .sidebar img {
-            width: 200px;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #0055a5;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Usuários - SmarTarget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f7f9fc;
+      display: flex;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #1f2937;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar img {
+      width: 180px;
+      margin: 0 auto 40px auto;
+    }
+    .sidebar a {
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background-color: #374151;
+    }
+    .main {
+      margin-left: 260px;
+      padding: 40px;
+      flex-grow: 1;
+    }
+    h1 {
+      font-size: 24px;
+      color: #111827;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+      background-color: #f3f4f6;
+    }
+    .actions button {
+      margin-right: 10px;
+      background-color: #6b7280;
+    }
+    .actions button:hover {
+      background-color: #4b5563;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="logo.jpg" alt="SmartTarget Logo">
-        <a href="home.html">Início</a>
-        <a href="usuarios.html">Usuários</a>
-        <a href="empresas.html">Empresas</a>
-        <a href="departamentos.html">Departamentos</a>
-        <a href="cargos.html">Cargos</a>
-        <a href="okrs.html">OKRs</a>
-        <a href="kpis.html">KPIs</a>
-        <a href="vinculos.html">Vincular OKRs x KPIs</a>
-        <a href="relatorio_departamento.html">Relatório por Departamento</a>
-        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
-    </div>
-    <div class="content">
-        <h2>Usuários</h2>
-        <label>Nome:</label><input id="Nome" placeholder="Nome"><br><label>Email:</label><input id="Email" placeholder="Email"><br><label>Empresa:</label><input id="Empresa" placeholder="Empresa"><br><label>Telefone:</label><input id="Telefone" placeholder="Telefone"><br><label>Cargo:</label><input id="Cargo" placeholder="Cargo"><br><label>Departamento:</label><input id="Departamento" placeholder="Departamento"><br><br><button onclick='salvar()'>Salvar</button><div id='dados'></div>
-    </div>
+  <div class="sidebar">
+    <img src="logo.jpg" alt="Logo" />
+    <a href="home.html">🏠 Início</a>
+    <a href="usuarios.html">👤 Usuários</a>
+    <a href="empresas.html">🏢 Empresas</a>
+    <a href="departamentos.html">📂 Departamentos</a>
+    <a href="cargos.html">💼 Cargos</a>
+    <a href="okrs.html">🎯 OKRs</a>
+    <a href="kpis.html">📊 KPIs</a>
+    <a href="vinculos.html">🔗 Vínculos</a>
+    <a href="dashboard.html">📈 Relatórios</a>
+  </div>
+  <div class="main">
+    <h1>Cadastro de Usuários</h1>
+    <form id="userForm">
+      <input type="hidden" id="editIndex" />
+      <input type="text" id="nome" placeholder="Nome completo" required />
+      <input type="email" id="email" placeholder="E-mail" required />
+      <input type="text" id="cargo" placeholder="Cargo" required />
+      <button type="submit">Salvar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Cargo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="userTable"></tbody>
+    </table>
+  </div>
+  <script>
+    const form = document.getElementById('userForm');
+    const userTable = document.getElementById('userTable');
+    let users = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+    function renderTable() {
+      userTable.innerHTML = '';
+      users.forEach((user, index) => {
+        userTable.innerHTML += `
+          <tr>
+            <td>${user.nome}</td>
+            <td>${user.email}</td>
+            <td>${user.cargo}</td>
+            <td class="actions">
+              <button onclick="editUser(${index})">Editar</button>
+              <button onclick="deleteUser(${index})">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function editUser(index) {
+      const user = users[index];
+      document.getElementById('nome').value = user.nome;
+      document.getElementById('email').value = user.email;
+      document.getElementById('cargo').value = user.cargo;
+      document.getElementById('editIndex').value = index;
+    }
+
+    function deleteUser(index) {
+      users.splice(index, 1);
+      localStorage.setItem('usuarios', JSON.stringify(users));
+      renderTable();
+    }
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const cargo = document.getElementById('cargo').value;
+      const editIndex = document.getElementById('editIndex').value;
+
+      const user = { nome, email, cargo };
+
+      if (editIndex === '') {
+        users.push(user);
+      } else {
+        users[editIndex] = user;
+        document.getElementById('editIndex').value = '';
+      }
+
+      localStorage.setItem('usuarios', JSON.stringify(users));
+      form.reset();
+      renderTable();
+    };
+
+    renderTable();
+  </script>
 </body>
 </html>
-
-        <script>
-            function salvar() {
-                let registros = JSON.parse(localStorage.getItem('Usuários') || '[]');
-                let novo = {
-                    "Nome": document.getElementById("Nome").value, "Email": document.getElementById("Email").value, "Empresa": document.getElementById("Empresa").value, "Telefone": document.getElementById("Telefone").value, "Cargo": document.getElementById("Cargo").value, "Departamento": document.getElementById("Departamento").value
-                };
-                registros.push(novo);
-                localStorage.setItem('Usuários', JSON.stringify(registros));
-                alert("Usuários salvo com sucesso!");
-                listar();
-            }
-
-            function listar() {
-                let registros = JSON.parse(localStorage.getItem('Usuários') || '[]');
-                let container = document.getElementById('dados');
-                container.innerHTML = '';
-
-                if (registros.length > 0) {
-                    let tabela = document.createElement('table');
-                    tabela.border = 1;
-                    tabela.style.borderCollapse = 'collapse';
-                    tabela.style.marginTop = '10px';
-
-                    let thead = tabela.createTHead();
-                    let headRow = thead.insertRow();
-                    headRow.insertCell().innerText = 'Nome';headRow.insertCell().innerText = 'Email';headRow.insertCell().innerText = 'Empresa';headRow.insertCell().innerText = 'Telefone';headRow.insertCell().innerText = 'Cargo';headRow.insertCell().innerText = 'Departamento';
-
-                    registros.forEach(r => {
-                        let row = tabela.insertRow();
-                        row.insertCell().innerText = r['Nome'] || ''; row.insertCell().innerText = r['Email'] || ''; row.insertCell().innerText = r['Empresa'] || ''; row.insertCell().innerText = r['Telefone'] || ''; row.insertCell().innerText = r['Cargo'] || ''; row.insertCell().innerText = r['Departamento'] || ''; 
-                    });
-
-                    container.appendChild(tabela);
-                } else {
-                    container.innerHTML = '<i>Nenhum dado encontrado</i>';
-                }
-            }
-
-            window.onload = listar;
-        </script>
-        
