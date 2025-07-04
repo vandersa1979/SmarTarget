@@ -1,84 +1,93 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
             display: flex;
-            height: 100vh;
-        }
-        .left-panel {
-            background-color: #003366;
-            color: white;
-            padding: 40px;
-            width: 40%;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: 100vh;
         }
-        .left-panel img {
-            width: 150px;
-            margin-bottom: 30px;
+        .login-container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 360px;
+            text-align: center;
         }
-        .left-panel h2 {
-            font-size: 28px;
+        h2 {
+            margin-bottom: 24px;
+            color: #1e293b;
         }
-        .left-panel input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
+        select, input[type="password"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 16px;
         }
-        .left-panel button {
-            padding: 10px 20px;
-            background-color: white;
-            color: #003366;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .left-panel a {
+        button {
+            background-color: #3b82f6;
             color: white;
-            font-size: 14px;
-            margin-top: 10px;
-            text-decoration: underline;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
-        .right-panel {
-            flex-grow: 1;
-            background-image: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df');
-            background-size: cover;
-            background-position: center;
+        button:hover {
+            background-color: #2563eb;
         }
     </style>
-    <script>
-        function login() {
-            var user = document.getElementById('user').value;
-            var pass = document.getElementById('pass').value;
-            if ((user === 'admin' && pass === 'admin') || localStorage.getItem(user) === pass) {
-                window.location.href = 'home.html';
-            } else {
-                alert('Login inválido');
-            }
-        }
-        function goToRegister() {
-            window.location.href = 'register.html';
-        }
-    </script>
 </head>
 <body>
-    <div class="left-panel">
-        <img src="logo.jpg" alt="SmartTarget Logo">
-        <h2>Faça login</h2>
-        <input id="user" placeholder="Usuário" value="admin">
-        <input id="pass" type="password" placeholder="Senha" value="admin">
-        <button onclick="login()">Entrar</button>
-        <a href="#" onclick="goToRegister()">Não tem uma conta? Cadastre-se</a>
+    <div class="login-container">
+        <h2>Entrar no SmarTarget</h2>
+        <select id="userType" required>
+            <option value="" disabled selected>Selecione o tipo de usuário</option>
+            <option value="admin">Admin</option>
+            <option value="gestor">Gestor</option>
+            <option value="colaborador">Colaborador</option>
+        </select>
+        <input type="password" id="password" placeholder="Senha" required />
+        <button id="loginBtn">Entrar</button>
     </div>
-    <div class="right-panel"></div>
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const userType = document.getElementById('userType').value;
+            const password = document.getElementById('password').value.trim();
+            if (!userType) {
+                alert('Por favor, selecione o tipo de usuário.');
+                return;
+            }
+            if (!password) {
+                alert('Por favor, informe a senha.');
+                return;
+            }
+            // Simples validação de senha padrão para exemplo
+            const validPasswords = {
+                admin: 'admin123',
+                gestor: 'gestor123',
+                colaborador: 'colab123'
+            };
+            if (password !== validPasswords[userType]) {
+                alert('Senha incorreta para o tipo de usuário selecionado.');
+                return;
+            }
+            // Salvar tipo de usuário no localStorage
+            localStorage.setItem('smarUserType', userType);
+            // Redirecionar para home.html
+            window.location.href = 'home.html';
+        });
+    </script>
 </body>
 </html>

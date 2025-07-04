@@ -1,102 +1,224 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>KPIs</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #003366;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-        .sidebar img {
-            width: 200px;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #0055a5;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KPIs - SmarTarget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f7fafc;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #1e293b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100vh;
+    }
+    .sidebar img {
+      width: 180px;
+      margin: 0 auto 40px;
+    }
+    .sidebar a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar a:hover {
+      background-color: #334155;
+    }
+    .sidebar a.active {
+      background-color: #2563eb;
+      color: white;
+    }
+    .main {
+      margin-left: 260px;
+      flex-grow: 1;
+      padding: 40px 50px;
+      overflow-y: auto;
+      height: 100vh;
+    }
+    h1 {
+      color: #111827;
+      margin-bottom: 30px;
+    }
+    form {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+      overflow: hidden;
+    }
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: #475569;
+    }
+    .actions button {
+      background-color: #64748b;
+      margin-right: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .actions button:hover {
+      background-color: #475569;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="logo.jpg" alt="SmartTarget Logo">
-        <a href="home.html">Início</a>
-        <a href="usuarios.html">Usuários</a>
-        <a href="empresas.html">Empresas</a>
-        <a href="departamentos.html">Departamentos</a>
-        <a href="cargos.html">Cargos</a>
-        <a href="okrs.html">OKRs</a>
-        <a href="kpis.html">KPIs</a>
-        <a href="vinculos.html">Vincular OKRs x KPIs</a>
-        <a href="relatorio_departamento.html">Relatório por Departamento</a>
-        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
-    </div>
-    <div class="content">
-        <h2>KPIs</h2>
-        <label>Meta:</label><input id="Meta" placeholder="Meta"><br><label>OKR Relacionado:</label><input id="OKR Relacionado" placeholder="OKR Relacionado"><br><label>Responsável:</label><input id="Responsável" placeholder="Responsável"><br><label>Valor Alvo:</label><input id="Valor Alvo" placeholder="Valor Alvo"><br><label>Unidade:</label><input id="Unidade" placeholder="Unidade"><br><label>Data Limite:</label><input id="Data Limite" placeholder="Data Limite"><br><br><button onclick='salvar()'>Salvar</button><div id='dados'></div>
-    </div>
+  <div class="sidebar">
+    <img src="logo.jpg" alt="SmartTarget Logo" />
+    <a href="home.html">🏠 Início</a>
+    <a href="usuarios.html">👤 Usuários</a>
+    <a href="empresas.html">🏢 Empresas</a>
+    <a href="departamentos.html">📂 Departamentos</a>
+    <a href="cargos.html">💼 Cargos</a>
+    <a href="okrs.html">🎯 OKRs</a>
+    <a href="kpis.html" class="active">📊 KPIs</a>
+    <a href="vinculos.html">🔗 Vínculos</a>
+    <a href="dashboard.html">📈 Relatórios</a>
+  </div>
+  <div class="main">
+    <h1>KPIs</h1>
+    <form id="kpiForm">
+      <input type="hidden" id="editIndex" />
+      <input type="text" id="nome" placeholder="Nome do KPI" required />
+      <select id="okr" required>
+        <option value="" disabled selected>Selecione o OKR</option>
+      </select>
+      <button type="submit">Salvar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>OKR</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="kpiTable"></tbody>
+    </table>
+  </div>
+  <script>
+    const form = document.getElementById('kpiForm');
+    const kpiTable = document.getElementById('kpiTable');
+    const okrSelect = document.getElementById('okr');
+    let kpis = JSON.parse(localStorage.getItem('kpis')) || [];
+    let okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+
+    function loadOKRs() {
+      okrSelect.innerHTML = '<option value="" disabled selected>Selecione o OKR</option>';
+      okrs.forEach((okr, i) => {
+        okrSelect.innerHTML += `<option value="${okr.nome}">${okr.nome}</option>`;
+      });
+    }
+
+    function renderTable() {
+      kpiTable.innerHTML = '';
+      kpis.forEach((kpi, index) => {
+        kpiTable.innerHTML += `
+          <tr>
+            <td>${kpi.nome}</td>
+            <td>${kpi.okr}</td>
+            <td class="actions">
+              <button onclick="editKPI(${index})">Editar</button>
+              <button onclick="deleteKPI(${index})">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function editKPI(index) {
+      const kpi = kpis[index];
+      document.getElementById('nome').value = kpi.nome;
+      okrSelect.value = kpi.okr;
+      document.getElementById('editIndex').value = index;
+    }
+
+    function deleteKPI(index) {
+      kpis.splice(index, 1);
+      localStorage.setItem('kpis', JSON.stringify(kpis));
+      renderTable();
+    }
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const okr = okrSelect.value;
+      const editIndex = document.getElementById('editIndex').value;
+
+      const kpi = { nome, okr };
+
+      if (editIndex === '') {
+        kpis.push(kpi);
+      } else {
+        kpis[editIndex] = kpi;
+        document.getElementById('editIndex').value = '';
+      }
+
+      localStorage.setItem('kpis', JSON.stringify(kpis));
+      form.reset();
+      renderTable();
+    };
+
+    loadOKRs();
+    renderTable();
+  </script>
 </body>
 </html>
-
-        <script>
-            function salvar() {
-                let registros = JSON.parse(localStorage.getItem('KPIs') || '[]');
-                let novo = {
-                    "Meta": document.getElementById("Meta").value, "OKR Relacionado": document.getElementById("OKR Relacionado").value, "Responsável": document.getElementById("Responsável").value, "Valor Alvo": document.getElementById("Valor Alvo").value, "Unidade": document.getElementById("Unidade").value, "Data Limite": document.getElementById("Data Limite").value
-                };
-                registros.push(novo);
-                localStorage.setItem('KPIs', JSON.stringify(registros));
-                alert("KPIs salvo com sucesso!");
-                listar();
-            }
-
-            function listar() {
-                let registros = JSON.parse(localStorage.getItem('KPIs') || '[]');
-                let container = document.getElementById('dados');
-                container.innerHTML = '';
-
-                if (registros.length > 0) {
-                    let tabela = document.createElement('table');
-                    tabela.border = 1;
-                    tabela.style.borderCollapse = 'collapse';
-                    tabela.style.marginTop = '10px';
-
-                    let thead = tabela.createTHead();
-                    let headRow = thead.insertRow();
-                    headRow.insertCell().innerText = 'Meta';headRow.insertCell().innerText = 'OKR Relacionado';headRow.insertCell().innerText = 'Responsável';headRow.insertCell().innerText = 'Valor Alvo';headRow.insertCell().innerText = 'Unidade';headRow.insertCell().innerText = 'Data Limite';
-
-                    registros.forEach(r => {
-                        let row = tabela.insertRow();
-                        row.insertCell().innerText = r['Meta'] || ''; row.insertCell().innerText = r['OKR Relacionado'] || ''; row.insertCell().innerText = r['Responsável'] || ''; row.insertCell().innerText = r['Valor Alvo'] || ''; row.insertCell().innerText = r['Unidade'] || ''; row.insertCell().innerText = r['Data Limite'] || ''; 
-                    });
-
-                    container.appendChild(tabela);
-                } else {
-                    container.innerHTML = '<i>Nenhum dado encontrado</i>';
-                }
-            }
-
-            window.onload = listar;
-        </script>
-        

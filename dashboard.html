@@ -1,161 +1,142 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Dashboard de Metas</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #003366;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-        .sidebar img {
-            width: 200px;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #0055a5;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - SmarTarget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f7fafc;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #1e293b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100vh;
+    }
+    .sidebar img {
+      width: 180px;
+      margin: 0 auto 40px;
+    }
+    .sidebar a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar a:hover {
+      background-color: #334155;
+    }
+    .sidebar a.active {
+      background-color: #2563eb;
+      color: white;
+    }
+    .main {
+      margin-left: 260px;
+      flex-grow: 1;
+      padding: 40px 50px;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    h1 {
+      color: #111827;
+      margin-bottom: 20px;
+    }
+    .chart-container {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    }
+    canvas {
+      max-width: 100%;
+      height: 300px;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="logo.jpg" alt="SmartTarget Logo">
-        <a href="home.html">Início</a>
-        <a href="usuarios.html">Usuários</a>
-        <a href="empresas.html">Empresas</a>
-        <a href="departamentos.html">Departamentos</a>
-        <a href="cargos.html">Cargos</a>
-        <a href="okrs.html">OKRs</a>
-        <a href="kpis.html">KPIs</a>
-        <a href="vinculos.html">Vincular OKRs x KPIs</a>
-        <a href="relatorio_departamento.html">Relatório por Departamento</a>
-        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
+  <div class="sidebar">
+    <img src="logo.jpg" alt="SmartTarget Logo" />
+    <a href="home.html">🏠 Início</a>
+    <a href="usuarios.html">👤 Usuários</a>
+    <a href="empresas.html">🏢 Empresas</a>
+    <a href="departamentos.html">📂 Departamentos</a>
+    <a href="cargos.html">💼 Cargos</a>
+    <a href="okrs.html">🎯 OKRs</a>
+    <a href="kpis.html">📊 KPIs</a>
+    <a href="vinculos.html">🔗 Vínculos</a>
+    <a href="dashboard.html" class="active">📈 Relatórios</a>
+  </div>
+  <div class="main">
+    <h1>Dashboard</h1>
+    <div class="chart-container">
+      <canvas id="okrChart"></canvas>
     </div>
-    <div class="content">
-        <h2>Dashboard de Metas</h2>
-        
-    <canvas id="graficoProgresso" width="600" height="300"></canvas>
-    <canvas id="graficoDepartamentos" width="600" height="300" style="margin-top: 40px;"></canvas>
-    <canvas id="graficoKpisPorPessoa" width="600" height="300" style="margin-top: 40px;"></canvas>
-    
+    <div class="chart-container">
+      <canvas id="kpiChart"></canvas>
     </div>
-</body>
-</html>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    function gerarDashboard() {
-        const okrs = JSON.parse(localStorage.getItem("OKRs") || "[]");
-        const kpis = JSON.parse(localStorage.getItem("KPIs") || "[]");
-        const usuarios = JSON.parse(localStorage.getItem("Usuários") || "[]");
-
-        // 1. Gráfico de Progresso dos OKRs
-        const ctx1 = document.getElementById("graficoProgresso").getContext("2d");
-        new Chart(ctx1, {
-            type: "bar",
-            data: {
-                labels: okrs.map(o => o.Objetivo),
-                datasets: [{
-                    label: "Progresso (%)",
-                    data: okrs.map(o => parseInt(o.Progresso || 0)),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "Progresso dos OKRs"
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                }
+  </div>
+  <script>
+    // Função para montar gráfico de barras
+    function createBarChart(ctx, labels, data, label) {
+      return new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            backgroundColor: 'rgba(37, 99, 235, 0.7)',
+            borderColor: 'rgba(37, 99, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
             }
-        });
-
-        // 2. Gráfico de KPIs por Departamento
-        let deptoContagem = {};
-        kpis.forEach(k => {
-            const dpto = k.Departamento || "N/A";
-            deptoContagem[dpto] = (deptoContagem[dpto] || 0) + 1;
-        });
-        const ctx2 = document.getElementById("graficoDepartamentos").getContext("2d");
-        new Chart(ctx2, {
-            type: "pie",
-            data: {
-                labels: Object.keys(deptoContagem),
-                datasets: [{
-                    label: "KPIs por Departamento",
-                    data: Object.values(deptoContagem)
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "Distribuição de KPIs por Departamento"
-                    }
-                }
-            }
-        });
-
-        // 3. Gráfico de KPIs por Pessoa
-        let pessoaContagem = {};
-        kpis.forEach(k => {
-            const nome = k.Responsável || "N/A";
-            pessoaContagem[nome] = (pessoaContagem[nome] || 0) + 1;
-        });
-        const ctx3 = document.getElementById("graficoKpisPorPessoa").getContext("2d");
-        new Chart(ctx3, {
-            type: "line",
-            data: {
-                labels: Object.keys(pessoaContagem),
-                datasets: [{
-                    label: "KPIs atribuídos",
-                    data: Object.values(pessoaContagem),
-                    fill: false,
-                    borderColor: "blue",
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "KPIs por Pessoa"
-                    }
-                }
-            }
-        });
+          }
+        }
+      });
     }
 
-    window.onload = gerarDashboard;
-</script>
+    // Pegar dados do LocalStorage
+    const okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+    const kpis = JSON.parse(localStorage.getItem('kpis')) || [];
+
+    // Preparar dados para gráficos
+    const okrLabels = okrs.map(o => o.nome);
+    const okrData = okrs.map(() => Math.floor(Math.random() * 100)); // Dados aleatórios para demo
+
+    const kpiLabels = kpis.map(k => k.nome);
+    const kpiData = kpis.map(() => Math.floor(Math.random() * 100)); // Dados aleatórios para demo
+
+    // Criar gráficos
+    const okrCtx = document.getElementById('okrChart').getContext('2d');
+    const kpiCtx = document.getElementById('kpiChart').getContext('2d');
+
+    createBarChart(okrCtx, okrLabels, okrData, 'Progresso OKRs');
+    createBarChart(kpiCtx, kpiLabels, kpiData, 'Progresso KPIs');
+  </script>
+</body>
+</html>

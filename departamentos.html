@@ -1,102 +1,207 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Departamentos</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #003366;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-            position: fixed;
-        }
-        .sidebar img {
-            width: 200px;
-            display: block;
-            margin: 0 auto 20px auto;
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #0055a5;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            flex-grow: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Departamentos - SmarTarget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f7fafc;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 260px;
+      background-color: #1e293b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100vh;
+    }
+    .sidebar img {
+      width: 180px;
+      margin: 0 auto 40px;
+    }
+    .sidebar a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar a:hover {
+      background-color: #334155;
+    }
+    .sidebar a.active {
+      background-color: #2563eb;
+      color: white;
+    }
+    .main {
+      margin-left: 260px;
+      flex-grow: 1;
+      padding: 40px 50px;
+      overflow-y: auto;
+      height: 100vh;
+    }
+    h1 {
+      color: #111827;
+      margin-bottom: 30px;
+    }
+    form {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+      overflow: hidden;
+    }
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: #475569;
+    }
+    .actions button {
+      background-color: #64748b;
+      margin-right: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .actions button:hover {
+      background-color: #475569;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="logo.jpg" alt="SmartTarget Logo">
-        <a href="home.html">Início</a>
-        <a href="usuarios.html">Usuários</a>
-        <a href="empresas.html">Empresas</a>
-        <a href="departamentos.html">Departamentos</a>
-        <a href="cargos.html">Cargos</a>
-        <a href="okrs.html">OKRs</a>
-        <a href="kpis.html">KPIs</a>
-        <a href="vinculos.html">Vincular OKRs x KPIs</a>
-        <a href="relatorio_departamento.html">Relatório por Departamento</a>
-        <a href="relatorio_pessoa.html">Relatório por Pessoa</a>
-    </div>
-    <div class="content">
-        <h2>Departamentos</h2>
-        <label>Nome do Departamento:</label><input id="Nome do Departamento" placeholder="Nome do Departamento"><br><label>Empresa:</label><input id="Empresa" placeholder="Empresa"><br><br><button onclick='salvar()'>Salvar</button><div id='dados'></div>
-    </div>
+  <div class="sidebar">
+    <img src="logo.jpg" alt="SmartTarget Logo" />
+    <a href="home.html">🏠 Início</a>
+    <a href="usuarios.html">👤 Usuários</a>
+    <a href="empresas.html">🏢 Empresas</a>
+    <a href="departamentos.html" class="active">📂 Departamentos</a>
+    <a href="cargos.html">💼 Cargos</a>
+    <a href="okrs.html">🎯 OKRs</a>
+    <a href="kpis.html">📊 KPIs</a>
+    <a href="vinculos.html">🔗 Vínculos</a>
+    <a href="dashboard.html">📈 Relatórios</a>
+  </div>
+  <div class="main">
+    <h1>Departamentos</h1>
+    <form id="departamentoForm">
+      <input type="hidden" id="editIndex" />
+      <input type="text" id="nome" placeholder="Nome do departamento" required />
+      <button type="submit">Salvar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="departamentoTable"></tbody>
+    </table>
+  </div>
+  <script>
+    const form = document.getElementById('departamentoForm');
+    const departamentoTable = document.getElementById('departamentoTable');
+    let departamentos = JSON.parse(localStorage.getItem('departamentos')) || [];
+
+    function renderTable() {
+      departamentoTable.innerHTML = '';
+      departamentos.forEach((departamento, index) => {
+        departamentoTable.innerHTML += `
+          <tr>
+            <td>${departamento.nome}</td>
+            <td class="actions">
+              <button onclick="editDepartamento(${index})">Editar</button>
+              <button onclick="deleteDepartamento(${index})">Excluir</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function editDepartamento(index) {
+      const departamento = departamentos[index];
+      document.getElementById('nome').value = departamento.nome;
+      document.getElementById('editIndex').value = index;
+    }
+
+    function deleteDepartamento(index) {
+      departamentos.splice(index, 1);
+      localStorage.setItem('departamentos', JSON.stringify(departamentos));
+      renderTable();
+    }
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const editIndex = document.getElementById('editIndex').value;
+
+      const departamento = { nome };
+
+      if (editIndex === '') {
+        departamentos.push(departamento);
+      } else {
+        departamentos[editIndex] = departamento;
+        document.getElementById('editIndex').value = '';
+      }
+
+      localStorage.setItem('departamentos', JSON.stringify(departamentos));
+      form.reset();
+      renderTable();
+    };
+
+    renderTable();
+  </script>
 </body>
 </html>
-
-        <script>
-            function salvar() {
-                let registros = JSON.parse(localStorage.getItem('Departamentos') || '[]');
-                let novo = {
-                    "Nome do Departamento": document.getElementById("Nome do Departamento").value, "Empresa": document.getElementById("Empresa").value
-                };
-                registros.push(novo);
-                localStorage.setItem('Departamentos', JSON.stringify(registros));
-                alert("Departamentos salvo com sucesso!");
-                listar();
-            }
-
-            function listar() {
-                let registros = JSON.parse(localStorage.getItem('Departamentos') || '[]');
-                let container = document.getElementById('dados');
-                container.innerHTML = '';
-
-                if (registros.length > 0) {
-                    let tabela = document.createElement('table');
-                    tabela.border = 1;
-                    tabela.style.borderCollapse = 'collapse';
-                    tabela.style.marginTop = '10px';
-
-                    let thead = tabela.createTHead();
-                    let headRow = thead.insertRow();
-                    headRow.insertCell().innerText = 'Nome do Departamento';headRow.insertCell().innerText = 'Empresa';
-
-                    registros.forEach(r => {
-                        let row = tabela.insertRow();
-                        row.insertCell().innerText = r['Nome do Departamento'] || ''; row.insertCell().innerText = r['Empresa'] || ''; 
-                    });
-
-                    container.appendChild(tabela);
-                } else {
-                    container.innerHTML = '<i>Nenhum dado encontrado</i>';
-                }
-            }
-
-            window.onload = listar;
-        </script>
-        
