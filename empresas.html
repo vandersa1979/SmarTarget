@@ -1,212 +1,152 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Empresas - SmarTarget</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f7fafc;
-      display: flex;
-      height: 100vh;
-    }
-    .sidebar {
-      width: 260px;
-      background-color: #1e293b;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 30px 20px;
-      position: fixed;
-      height: 100vh;
-    }
-    .sidebar img {
-      width: 180px;
-      margin: 0 auto 40px;
-    }
-    .sidebar a {
-      color: #cbd5e1;
-      text-decoration: none;
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      transition: background-color 0.2s ease;
-      display: flex;
-      align-items: center;
-    }
-    .sidebar a:hover {
-      background-color: #334155;
-    }
-    .sidebar a.active {
-      background-color: #2563eb;
-      color: white;
-    }
-    .main {
-      margin-left: 260px;
-      flex-grow: 1;
-      padding: 40px 50px;
-      overflow-y: auto;
-      height: 100vh;
-    }
-    h1 {
-      color: #111827;
-      margin-bottom: 30px;
-    }
-    form {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
-      max-width: 600px;
-      margin-bottom: 40px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 10px;
-      border: 1px solid #cbd5e1;
-      font-size: 16px;
-    }
-    button {
-      background-color: #3b82f6;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #2563eb;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
-      overflow: hidden;
-    }
-    th, td {
-      padding: 16px 20px;
-      text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    th {
-      background-color: #f1f5f9;
-      font-weight: 600;
-      color: #475569;
-    }
-    .actions button {
-      background-color: #64748b;
-      margin-right: 8px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      color: white;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
-    .actions button:hover {
-      background-color: #475569;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Empresas e Filiais - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
+  <script type="module" src="js/firebase.js"></script>
 </head>
-<body>
-  <div class="sidebar">
-    <img src="logo.jpg" alt="SmartTarget Logo" />
-    <a href="home.html">🏠 Início</a>
-    <a href="usuarios.html">👤 Usuários</a>
-    <a href="empresas.html" class="active">🏢 Empresas</a>
-    <a href="departamentos.html">📂 Departamentos</a>
-    <a href="cargos.html">💼 Cargos</a>
-    <a href="okrs.html">🎯 OKRs</a>
-    <a href="kpis.html">📊 KPIs</a>
-    <a href="vinculos.html">🔗 Vínculos</a>
-    <a href="dashboard.html">📈 Relatórios</a>
-  </div>
-  <div class="main">
-    <h1>Empresas</h1>
-    <form id="empresaForm">
-      <input type="hidden" id="editIndex" />
-      <input type="text" id="nome" placeholder="Nome da empresa" required />
-      <input type="text" id="cnpj" placeholder="CNPJ" required />
-      <button type="submit">Salvar</button>
-    </form>
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>CNPJ</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody id="empresaTable"></tbody>
-    </table>
-  </div>
-  <script>
-    const form = document.getElementById('empresaForm');
-    const empresaTable = document.getElementById('empresaTable');
-    let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow">
+                <a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+                <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+                <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+                <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
+                <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+                <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+                <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+                <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+                <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+                <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+                <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+            </nav>
+        </aside>
 
-    function renderTable() {
-      empresaTable.innerHTML = '';
-      empresas.forEach((empresa, index) => {
-        empresaTable.innerHTML += `
-          <tr>
-            <td>${empresa.nome}</td>
-            <td>${empresa.cnpj}</td>
-            <td class="actions">
-              <button onclick="editEmpresa(${index})">Editar</button>
-              <button onclick="deleteEmpresa(${index})">Excluir</button>
-            </td>
-          </tr>
-        `;
-      });
-    }
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Cadastro de Empresas e Filiais</h1>
 
-    function editEmpresa(index) {
-      const empresa = empresas[index];
-      document.getElementById('nome').value = empresa.nome;
-      document.getElementById('cnpj').value = empresa.cnpj;
-      document.getElementById('editIndex').value = index;
-    }
+            <!-- Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-2xl">
+                <form id="empresaForm" class="space-y-4">
+                    <input type="hidden" id="editIndex" />
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-slate-600">Nome da Empresa/Filial</label>
+                        <input type="text" id="nome" placeholder="Ex: Smart Solutions Ltda" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                    </div>
+                    <div>
+                        <label for="cnpj" class="block text-sm font-medium text-slate-600">CNPJ</label>
+                        <input type="text" id="cnpj" placeholder="00.000.000/0001-00" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                    </div>
+                    <div>
+                        <label for="matriz" class="block text-sm font-medium text-slate-600">Filial de (Matriz)</label>
+                        <select id="matriz" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"></select>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Empresa</button>
+                    </div>
+                </form>
+            </div>
 
-    function deleteEmpresa(index) {
-      empresas.splice(index, 1);
-      localStorage.setItem('empresas', JSON.stringify(empresas));
-      renderTable();
-    }
+            <!-- Table -->
+            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-500">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nome</th>
+                            <th scope="col" class="px-6 py-3">CNPJ</th>
+                            <th scope="col" class="px-6 py-3">Matriz</th>
+                            <th scope="col" class="px-6 py-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empresaTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
 
-    form.onsubmit = (e) => {
-      e.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const cnpj = document.getElementById('cnpj').value;
-      const editIndex = document.getElementById('editIndex').value;
+    <script>
+        const form = document.getElementById('empresaForm');
+        const empresaTable = document.getElementById('empresaTable');
+        const matrizSelect = document.getElementById('matriz');
+        let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
 
-      const empresa = { nome, cnpj };
+        function loadMatrizOptions() {
+            matrizSelect.innerHTML = '<option value="">Nenhuma (É uma Matriz)</option>';
+            empresas.forEach(empresa => {
+                matrizSelect.innerHTML += `<option value="${empresa.nome}">${empresa.nome}</option>`;
+            });
+        }
 
-      if (editIndex === '') {
-        empresas.push(empresa);
-      } else {
-        empresas[editIndex] = empresa;
-        document.getElementById('editIndex').value = '';
-      }
+        function renderTable() {
+            empresaTable.innerHTML = '';
+            empresas.forEach((empresa, index) => {
+                const row = empresaTable.insertRow();
+                row.className = 'bg-white border-b hover:bg-slate-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${empresa.nome}</td>
+                    <td class="px-6 py-4">${empresa.cnpj}</td>
+                    <td class="px-6 py-4">${empresa.matriz || 'N/A'}</td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="editEmpresa(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                        <button onclick="deleteEmpresa(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                    </td>
+                `;
+            });
+            loadMatrizOptions();
+        }
 
-      localStorage.setItem('empresas', JSON.stringify(empresas));
-      form.reset();
-      renderTable();
-    };
+        function editEmpresa(index) {
+            const empresa = empresas[index];
+            document.getElementById('nome').value = empresa.nome;
+            document.getElementById('cnpj').value = empresa.cnpj;
+            matrizSelect.value = empresa.matriz;
+            document.getElementById('editIndex').value = index;
+            window.scrollTo(0, 0);
+        }
 
-    renderTable();
-  </script>
+        function deleteEmpresa(index) {
+            if (confirm('Tem certeza que deseja excluir esta empresa?')) {
+                empresas.splice(index, 1);
+                localStorage.setItem('empresas', JSON.stringify(empresas));
+                renderTable();
+            }
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const matriz = matrizSelect.value;
+            const editIndex = document.getElementById('editIndex').value;
+            const empresa = { nome, cnpj, matriz };
+
+            if (editIndex === '') {
+                empresas.push(empresa);
+            } else {
+                empresas[editIndex] = empresa;
+                document.getElementById('editIndex').value = '';
+            }
+
+            localStorage.setItem('empresas', JSON.stringify(empresas));
+            form.reset();
+            renderTable();
+        };
+
+        // Initial Load
+        renderTable();
+    </script>
 </body>
 </html>

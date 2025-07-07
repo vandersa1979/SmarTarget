@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mapa Estratégico - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar { scrollbar-width: none; }
+        .tree ul {
+            padding-top: 20px;
+            position: relative;
+            transition: all 0.5s;
+        }
+        .tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+            transition: all 0.5s;
+        }
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid #ccc;
+            width: 50%;
+            height: 20px;
+        }
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #ccc;
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child {
+            padding-top: 0;
+        }
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid #ccc;
+            border-radius: 0 5px 0 0;
+        }
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        .tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid #ccc;
+            width: 0;
+            height: 20px;
+        }
+        .tree li div {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-decoration: none;
+            color: #666;
+            background-color: white;
+            display: inline-block;
+            border-radius: 5px;
+            transition: all 0.5s;
+            min-width: 150px;
+        }
+    </style>
+  <script type="module" src="js/firebase.js"></script>
+</head>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow">
+                <a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+                <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+                <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+                <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
+                <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+                <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+                <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+                <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+                <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+                <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+                <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Mapa Estratégico Visual</h1>
+            <p class="text-slate-600 mb-8">Visualize o encadeamento de metas (top-down) da organização.</p>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+                <div class="tree" id="okr-tree">
+                    <!-- Tree will be generated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+            const treeContainer = document.getElementById('okr-tree');
+
+            if (okrs.length === 0) {
+                treeContainer.innerHTML = '<p class="text-center text-slate-500">Nenhum OKR cadastrado para exibir o mapa.</p>';
+                return;
+            }
+
+            // Create a map for easy lookup
+            const okrMap = new Map();
+            okrs.forEach(okr => {
+                okrMap.set(okr.objetivo, { ...okr, children: [] });
+            });
+
+            // Build the tree structure
+            const treeData = [];
+            okrMap.forEach(okr => {
+                if (okr.okrPai && okrMap.has(okr.okrPai)) {
+                    okrMap.get(okr.okrPai).children.push(okr);
+                } else {
+                    // This is a root node
+                    treeData.push(okr);
+                }
+            });
+
+            // Function to recursively build the HTML
+            function buildTreeHtml(nodes) {
+                if (!nodes || nodes.length === 0) return '';
+                let html = '<ul>';
+                nodes.forEach(node => {
+                    const progressColor = node.andamento > 75 ? 'bg-green-500' : node.andamento > 40 ? 'bg-yellow-500' : 'bg-red-500';
+                    html += `
+                        <li>
+                            <div class="shadow-lg">
+                                <h3 class="font-bold text-sm text-slate-800">${node.objetivo}</h3>
+                                <p class="text-xs text-slate-500">${node.responsavel}</p>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                    <div class="${progressColor} h-1.5 rounded-full" style="width: ${node.andamento}%"></div>
+                                </div>
+                            </div>
+                            ${buildTreeHtml(node.children)}
+                        </li>
+                    `;
+                });
+                html += '</ul>';
+                return html;
+            }
+
+            treeContainer.innerHTML = buildTreeHtml(treeData);
+        });
+    </script>
+</body>
+</html>

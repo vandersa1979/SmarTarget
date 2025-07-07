@@ -1,142 +1,191 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - SmarTarget</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f7fafc;
-      display: flex;
-      height: 100vh;
-    }
-    .sidebar {
-      width: 260px;
-      background-color: #1e293b;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 30px 20px;
-      position: fixed;
-      height: 100vh;
-    }
-    .sidebar img {
-      width: 180px;
-      margin: 0 auto 40px;
-    }
-    .sidebar a {
-      color: #cbd5e1;
-      text-decoration: none;
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      transition: background-color 0.2s ease;
-      display: flex;
-      align-items: center;
-    }
-    .sidebar a:hover {
-      background-color: #334155;
-    }
-    .sidebar a.active {
-      background-color: #2563eb;
-      color: white;
-    }
-    .main {
-      margin-left: 260px;
-      flex-grow: 1;
-      padding: 40px 50px;
-      overflow-y: auto;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-    h1 {
-      color: #111827;
-      margin-bottom: 20px;
-    }
-    .chart-container {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
-    }
-    canvas {
-      max-width: 100%;
-      height: 300px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
+  <script type="module" src="js/firebase.js"></script>
 </head>
-<body>
-  <div class="sidebar">
-    <img src="logo.jpg" alt="SmartTarget Logo" />
-    <a href="home.html">🏠 Início</a>
-    <a href="usuarios.html">👤 Usuários</a>
-    <a href="empresas.html">🏢 Empresas</a>
-    <a href="departamentos.html">📂 Departamentos</a>
-    <a href="cargos.html">💼 Cargos</a>
-    <a href="okrs.html">🎯 OKRs</a>
-    <a href="kpis.html">📊 KPIs</a>
-    <a href="vinculos.html">🔗 Vínculos</a>
-    <a href="dashboard.html" class="active">📈 Relatórios</a>
-  </div>
-  <div class="main">
-    <h1>Dashboard</h1>
-    <div class="chart-container">
-      <canvas id="okrChart"></canvas>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow">
+                <a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+                <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+                <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+                <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
+                <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+                <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+                <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+                <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+                <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+                <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+                <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Dashboard de Desempenho</h1>
+
+            <!-- Filters -->
+            <div class="bg-white p-4 rounded-xl shadow-md mb-8 flex flex-wrap items-center gap-4">
+                <h3 class="text-lg font-semibold text-slate-700">Filtros:</h3>
+                <select id="filterPeriodo" class="input-style w-48"></select>
+                <select id="filterDepartamento" class="input-style w-48"></select>
+                <select id="filterUsuario" class="input-style w-48"></select>
+                <button id="applyFilters" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700">Aplicar</button>
+            </div>
+
+            <!-- Status Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-slate-700">OKRs Concluídos</h4>
+                    <p id="okrConcluido" class="text-3xl font-bold text-green-500">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-slate-700">OKRs em Andamento</h4>
+                    <p id="okrAndamento" class="text-3xl font-bold text-blue-500">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-slate-700">OKRs Atrasados</h4>
+                    <p id="okrAtrasado" class="text-3xl font-bold text-red-500">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-slate-700">Total de OKRs</h4>
+                    <p id="okrTotal" class="text-3xl font-bold text-slate-800">0</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">Progresso Geral dos OKRs</h3>
+                    <canvas id="okrChart"></canvas>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">Distribuição de Status dos OKRs</h3>
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+             <!-- Reports -->
+            <div class="bg-white p-6 rounded-xl shadow-md mt-8">
+                <h3 class="text-lg font-semibold text-slate-700 mb-4">Relatórios</h3>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700">Exportar para Excel</button>
+                    <button class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700">Exportar para PDF</button>
+                </div>
+            </div>
+        </main>
     </div>
-    <div class="chart-container">
-      <canvas id="kpiChart"></canvas>
-    </div>
-  </div>
-  <script>
-    // Função para montar gráfico de barras
-    function createBarChart(ctx, labels, data, label) {
-      return new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: label,
-            data: data,
-            backgroundColor: 'rgba(37, 99, 235, 0.7)',
-            borderColor: 'rgba(37, 99, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data
+            const okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+            const periodos = JSON.parse(localStorage.getItem('periodos')) || [];
+            const departamentos = JSON.parse(localStorage.getItem('departamentos')) || [];
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            // Filters
+            const filterPeriodo = document.getElementById('filterPeriodo');
+            const filterDepartamento = document.getElementById('filterDepartamento');
+            const filterUsuario = document.getElementById('filterUsuario');
+
+            // Charts
+            let okrChart, statusChart;
+
+            function loadSelectOptions(select, data, placeholder, valueKey = 'nome', textKey = 'nome') {
+                select.innerHTML = `<option value="">Todos os ${placeholder}</option>`;
+                data.forEach(item => {
+                    select.innerHTML += `<option value="${item[valueKey]}">${item[textKey]}</option>`;
+                });
             }
-          }
-        }
-      });
-    }
 
-    // Pegar dados do LocalStorage
-    const okrs = JSON.parse(localStorage.getItem('okrs')) || [];
-    const kpis = JSON.parse(localStorage.getItem('kpis')) || [];
+            function updateDashboard(filteredOkrs) {
+                // Update status cards
+                document.getElementById('okrConcluido').textContent = filteredOkrs.filter(o => o.status === 'Concluído').length;
+                document.getElementById('okrAndamento').textContent = filteredOkrs.filter(o => o.status === 'Em andamento').length;
+                document.getElementById('okrAtrasado').textContent = filteredOkrs.filter(o => o.status === 'Atrasado').length;
+                document.getElementById('okrTotal').textContent = filteredOkrs.length;
 
-    // Preparar dados para gráficos
-    const okrLabels = okrs.map(o => o.nome);
-    const okrData = okrs.map(() => Math.floor(Math.random() * 100)); // Dados aleatórios para demo
+                // Destroy existing charts
+                if (okrChart) okrChart.destroy();
+                if (statusChart) statusChart.destroy();
 
-    const kpiLabels = kpis.map(k => k.nome);
-    const kpiData = kpis.map(() => Math.floor(Math.random() * 100)); // Dados aleatórios para demo
+                // OKR Progress Chart (Bar)
+                const okrCtx = document.getElementById('okrChart').getContext('2d');
+                okrChart = new Chart(okrCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: filteredOkrs.map(o => o.objetivo.substring(0, 20) + '...'),
+                        datasets: [{
+                            label: 'Andamento (%)',
+                            data: filteredOkrs.map(o => o.andamento),
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { scales: { y: { beginAtZero: true, max: 100 } } }
+                });
 
-    // Criar gráficos
-    const okrCtx = document.getElementById('okrChart').getContext('2d');
-    const kpiCtx = document.getElementById('kpiChart').getContext('2d');
+                // Status Distribution Chart (Doughnut)
+                const statusCounts = filteredOkrs.reduce((acc, okr) => {
+                    acc[okr.status] = (acc[okr.status] || 0) + 1;
+                    return acc;
+                }, {});
+                const statusCtx = document.getElementById('statusChart').getContext('2d');
+                statusChart = new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(statusCounts),
+                        datasets: [{
+                            label: 'Status dos OKRs',
+                            data: Object.values(statusCounts),
+                            backgroundColor: [
+                                'rgba(34, 197, 94, 0.7)', // Concluído
+                                'rgba(59, 130, 246, 0.7)', // Em andamento
+                                'rgba(239, 68, 68, 0.7)', // Atrasado
+                                'rgba(245, 158, 11, 0.7)', // Em espera
+                                'rgba(107, 114, 128, 0.7)'  // Não iniciado
+                            ],
+                        }]
+                    }
+                });
+            }
+            
+            document.getElementById('applyFilters').addEventListener('click', () => {
+                let filteredData = [...okrs];
+                if (filterPeriodo.value) {
+                    filteredData = filteredData.filter(o => o.periodo === filterPeriodo.value);
+                }
+                // Note: Filtering by department and user requires this data to be in the OKR object.
+                // The current OKR structure only has 'responsavel'.
+                if (filterUsuario.value) {
+                    filteredData = filteredData.filter(o => o.responsavel === filterUsuario.value);
+                }
+                updateDashboard(filteredData);
+            });
 
-    createBarChart(okrCtx, okrLabels, okrData, 'Progresso OKRs');
-    createBarChart(kpiCtx, kpiLabels, kpiData, 'Progresso KPIs');
-  </script>
+            // Initial Load
+            loadSelectOptions(filterPeriodo, periodos, 'Períodos');
+            loadSelectOptions(filterDepartamento, departamentos, 'Departamentos');
+            loadSelectOptions(filterUsuario, usuarios, 'Usuários');
+            updateDashboard(okrs); // Load with all data initially
+        });
+    </script>
 </body>
 </html>
+

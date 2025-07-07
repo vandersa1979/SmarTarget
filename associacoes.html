@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Departamentos - SmarTarget</title>
+    <title>Associações OKR-KPI - SmarTarget</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
@@ -20,13 +20,13 @@
                 <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
                 <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
                 <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
-                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-700"><span>📂 Departamentos</span></a>
+                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
                 <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
                 <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
                 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
                 <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
                 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
-                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-700"><span>🔗 Associações</span></a>
                 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
                 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
                 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
@@ -36,18 +36,28 @@
 
         <!-- Main Content -->
         <main class="flex-1 ml-64 p-8 overflow-y-auto">
-            <h1 class="text-3xl font-bold text-slate-800 mb-6">Cadastro de Departamentos</h1>
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Associação de KPIs a OKRs</h1>
 
             <!-- Form -->
             <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-2xl">
-                <form id="departamentoForm" class="space-y-4">
+                <form id="vinculoForm" class="space-y-4">
                     <input type="hidden" id="editIndex" />
-                    <div>
-                        <label for="nome" class="block text-sm font-medium text-slate-600">Nome do Departamento</label>
-                        <input type="text" id="nome" placeholder="Ex: Financeiro" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="okr" class="block text-sm font-medium text-slate-600">Selecione o OKR</label>
+                            <select id="okr" class="mt-1 block w-full input-style" required></select>
+                        </div>
+                        <div>
+                            <label for="kpi" class="block text-sm font-medium text-slate-600">Selecione o KPI</label>
+                            <select id="kpi" class="mt-1 block w-full input-style" required></select>
+                        </div>
+                    </div>
+                     <div>
+                        <label for="peso" class="block text-sm font-medium text-slate-600">Peso do KPI no OKR (%)</label>
+                        <input type="number" id="peso" min="0" max="100" placeholder="Ex: 70" class="mt-1 block w-full input-style" required />
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Departamento</button>
+                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Associação</button>
                     </div>
                 </form>
             </div>
@@ -57,70 +67,97 @@
                 <table class="w-full text-sm text-left text-slate-500">
                     <thead class="text-xs text-slate-700 uppercase bg-slate-100">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Nome do Departamento</th>
+                            <th scope="col" class="px-6 py-3">OKR</th>
+                            <th scope="col" class="px-6 py-3">KPI Associado</th>
+                            <th scope="col" class="px-6 py-3">Peso (%)</th>
                             <th scope="col" class="px-6 py-3 text-center">Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="departamentoTable"></tbody>
+                    <tbody id="vinculoTable"></tbody>
                 </table>
             </div>
         </main>
     </div>
 
     <script>
-        const form = document.getElementById('departamentoForm');
-        const departamentoTable = document.getElementById('departamentoTable');
-        let departamentos = JSON.parse(localStorage.getItem('departamentos')) || [];
+        const form = document.getElementById('vinculoForm');
+        const vinculoTableBody = document.getElementById('vinculoTable');
+        const okrSelect = document.getElementById('okr');
+        const kpiSelect = document.getElementById('kpi');
+        
+        let vinculos = JSON.parse(localStorage.getItem('vinculos')) || [];
+        let okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+        let kpis = JSON.parse(localStorage.getItem('kpis')) || [];
+
+        function loadSelectOptions(select, data, placeholder, valueKey = 'nome', textKey = 'nome') {
+            select.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+            data.forEach(item => {
+                const value = item[valueKey] || item['objetivo'];
+                const text = item[textKey] || item['objetivo'];
+                select.innerHTML += `<option value="${value}">${text}</option>`;
+            });
+        }
 
         function renderTable() {
-            departamentoTable.innerHTML = '';
-            departamentos.forEach((departamento, index) => {
-                const row = departamentoTable.insertRow();
+            vinculoTableBody.innerHTML = '';
+            vinculos.forEach((vinculo, index) => {
+                const row = vinculoTableBody.insertRow();
                 row.className = 'bg-white border-b hover:bg-slate-50';
                 row.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${departamento.nome}</td>
+                    <td class="px-6 py-4 font-medium text-slate-900">${vinculo.okr}</td>
+                    <td class="px-6 py-4">${vinculo.kpi}</td>
+                    <td class="px-6 py-4">${vinculo.peso}%</td>
                     <td class="px-6 py-4 text-center">
-                        <button onclick="editDepartamento(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
-                        <button onclick="deleteDepartamento(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                        <button onclick="editVinculo(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                        <button onclick="deleteVinculo(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
                     </td>
                 `;
             });
         }
 
-        function editDepartamento(index) {
-            const departamento = departamentos[index];
-            document.getElementById('nome').value = departamento.nome;
+        function editVinculo(index) {
+            const vinculo = vinculos[index];
+            okrSelect.value = vinculo.okr;
+            kpiSelect.value = vinculo.kpi;
+            document.getElementById('peso').value = vinculo.peso;
             document.getElementById('editIndex').value = index;
             window.scrollTo(0, 0);
         }
 
-        function deleteDepartamento(index) {
-            if (confirm('Tem certeza que deseja excluir este departamento?')) {
-                departamentos.splice(index, 1);
-                localStorage.setItem('departamentos', JSON.stringify(departamentos));
+        function deleteVinculo(index) {
+            if (confirm('Tem certeza que deseja excluir esta associação?')) {
+                vinculos.splice(index, 1);
+                localStorage.setItem('vinculos', JSON.stringify(vinculos));
                 renderTable();
             }
         }
 
         form.onsubmit = (e) => {
             e.preventDefault();
-            const nome = document.getElementById('nome').value;
+            const vinculoData = {
+                okr: okrSelect.value,
+                kpi: kpiSelect.value,
+                peso: document.getElementById('peso').value
+            };
             const editIndex = document.getElementById('editIndex').value;
-            const departamento = { nome };
 
             if (editIndex === '') {
-                departamentos.push(departamento);
+                vinculos.push(vinculoData);
             } else {
-                departamentos[editIndex] = departamento;
+                vinculos[editIndex] = vinculoData;
                 document.getElementById('editIndex').value = '';
             }
 
-            localStorage.setItem('departamentos', JSON.stringify(departamentos));
+            localStorage.setItem('vinculos', JSON.stringify(vinculos));
             form.reset();
             renderTable();
         };
 
+        // Initial Load
+        loadSelectOptions(okrSelect, okrs, 'Selecione', 'objetivo', 'objetivo');
+        loadSelectOptions(kpiSelect, kpis, 'Selecione');
         renderTable();
     </script>
 </body>
 </html>
+
