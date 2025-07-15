@@ -10,7 +10,7 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-// Firebase config
+// 1) Configuração do seu projeto Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAmf4kImeUaJOcisVYGxhaboUWZon36o9A",
   authDomain: "smartarget-web-bd.firebaseapp.com",
@@ -21,11 +21,11 @@ const firebaseConfig = {
   measurementId: "G-3Q65NT8VV0"
 };
 
-// Initialize Firebase
+// 2) Inicializa o app e o Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// CRUD functions
+// 3) Funções genéricas de CRUD
 export async function createItem(collectionName, data) {
   const colRef = collection(db, collectionName);
   const docRef = await addDoc(colRef, data);
