@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Áreas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="menu"></div>
+  <main>
+    <h1>Cadastro de Áreas</h1>
+    <form id="areaForm">
+      <label>Área:
+        <select id="areaSelect">
+          <option value="">Selecione</option>
+          <option>Financeiro</option>
+          <option>Comercial</option>
+          <option>Operação</option>
+          <option>RH</option>
+          <option>Tecnologia</option>
+          <option>Administração</option>
+          <option>Outros</option>
+        </select>
+      </label>
+      <div id="customAreaDiv" style="display:none;">
+        <label>Nova Área: <input type="text" id="customArea"></label>
+      </div>
+      <button type="submit">Adicionar</button>
+    </form>
+    <ul id="areasList"></ul>
+  </main>
+  <script src="js/auth.js"></script>
+  <script src="js/areas.js"></script>
+</body>
+</html>

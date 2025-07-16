@@ -1,185 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>KPIs - SmarTarget</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
+  <meta charset="UTF-8">
+  <title>KPIs</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="menu"></div>
- class="bg-slate-100">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
-            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
-            <nav class="flex-grow">
-                <a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
-                <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
-                <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
-                <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
-                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
-                <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
-                <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
-                <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
-                <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-700"><span>📊 KPIs</span></a>
-                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
-                <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
-                <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
-                <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8 overflow-y-auto">
-            <h1 class="text-3xl font-bold text-slate-800 mb-6">Gestão de Indicadores (KPIs)</h1>
-
-            <!-- Form -->
-            <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-4xl">
-                <form id="kpiForm" class="space-y-4">
-                    <input type="hidden" id="editIndex" />
-                    <div>
-                        <label for="nome" class="block text-sm font-medium text-slate-600">Nome do Indicador</label>
-                        <input type="text" id="nome" placeholder="Ex: Taxa de Conversão de Vendas" class="mt-1 block w-full input-style" required />
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label for="tipo" class="block text-sm font-medium text-slate-600">Tipo</label>
-                            <select id="tipo" class="mt-1 block w-full input-style" required>
-                                <option value="Quantitativo">Quantitativo</option>
-                                <option value="Qualitativo">Qualitativo</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="valorAlvo" class="block text-sm font-medium text-slate-600">Valor Alvo</label>
-                            <input type="number" id="valorAlvo" placeholder="Ex: 1000" class="mt-1 block w-full input-style" required />
-                        </div>
-                        <div>
-                            <label for="valorRealizado" class="block text-sm font-medium text-slate-600">Valor Realizado</label>
-                            <input type="number" id="valorRealizado" placeholder="Ex: 750" class="mt-1 block w-full input-style" required />
-                        </div>
-                    </div>
-                    <div>
-                        <label for="formula" class="block text-sm font-medium text-slate-600">Fórmula de Cálculo (para KPIs compostos)</label>
-                        <textarea id="formula" rows="2" placeholder="Ex: (Receita / Número de Clientes)" class="mt-1 block w-full input-style"></textarea>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar KPI</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Table -->
-            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
-                <table class="w-full text-sm text-left text-slate-500">
-                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">Indicador</th>
-                            <th scope="col" class="px-6 py-3">Tipo</th>
-                            <th scope="col" class="px-6 py-3">Alvo</th>
-                            <th scope="col" class="px-6 py-3">Realizado</th>
-                            <th scope="col" class="px-6 py-3 w-48">Desempenho</th>
-                            <th scope="col" class="px-6 py-3 text-center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="kpiTable"></tbody>
-                </table>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        const form = document.getElementById('kpiForm');
-        const kpiTableBody = document.getElementById('kpiTable');
-        let kpis = JSON.parse(localStorage.getItem('kpis')) || [];
-
-        function getPerformance(target, actual) {
-            if (target === 0) return { percent: 0, color: 'bg-gray-200' };
-            const percent = Math.round((actual / target) * 100);
-            let color = 'bg-red-500';
-            if (percent >= 90) {
-                color = 'bg-green-500';
-            } else if (percent >= 70) {
-                color = 'bg-yellow-500';
-            }
-            return { percent: Math.min(percent, 100), color };
-        }
-
-        function renderTable() {
-            kpiTableBody.innerHTML = '';
-            kpis.forEach((kpi, index) => {
-                const performance = getPerformance(parseFloat(kpi.valorAlvo), parseFloat(kpi.valorRealizado));
-                const row = kpiTableBody.insertRow();
-                row.className = 'bg-white border-b hover:bg-slate-50';
-                row.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-slate-900">${kpi.nome}</td>
-                    <td class="px-6 py-4">${kpi.tipo}</td>
-                    <td class="px-6 py-4">${kpi.valorAlvo}</td>
-                    <td class="px-6 py-4">${kpi.valorRealizado}</td>
-                    <td class="px-6 py-4">
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="${performance.color} h-2.5 rounded-full" style="width: ${performance.percent}%"></div>
-                        </div>
-                        <span class="text-xs font-medium text-slate-500">${performance.percent}%</span>
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        <button onclick="editKPI(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
-                        <button onclick="deleteKPI(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
-                    </td>
-                `;
-            });
-        }
-
-        function editKPI(index) {
-            const kpi = kpis[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('nome').value = kpi.nome;
-            document.getElementById('tipo').value = kpi.tipo;
-            document.getElementById('valorAlvo').value = kpi.valorAlvo;
-            document.getElementById('valorRealizado').value = kpi.valorRealizado;
-            document.getElementById('formula').value = kpi.formula;
-            window.scrollTo(0, 0);
-        }
-
-        function deleteKPI(index) {
-            if (confirm('Tem certeza que deseja excluir este KPI?')) {
-                kpis.splice(index, 1);
-                localStorage.setItem('kpis', JSON.stringify(kpis));
-                renderTable();
-            }
-        }
-
-        form.onsubmit = (e) => {
-            e.preventDefault();
-            const kpiData = {
-                nome: document.getElementById('nome').value,
-                tipo: document.getElementById('tipo').value,
-                valorAlvo: document.getElementById('valorAlvo').value,
-                valorRealizado: document.getElementById('valorRealizado').value,
-                formula: document.getElementById('formula').value,
-            };
-            const editIndex = document.getElementById('editIndex').value;
-
-            if (editIndex === '') {
-                kpis.push(kpiData);
-            } else {
-                kpis[editIndex] = kpiData;
-                document.getElementById('editIndex').value = '';
-            }
-
-            localStorage.setItem('kpis', JSON.stringify(kpis));
-            form.reset();
-            renderTable();
-        };
-
-        // Initial Load
-        renderTable();
-    </script>
+  <main>
+    <h1>Gestão de Indicadores (KPIs)</h1>
+    <form id="kpiForm">
+      <label>Indicador: <input type="text" id="kpiName" required></label>
+      <label>Fórmula: <input type="text" id="kpiFormula" required></label>
+      <label>Responsável: <input type="text" id="kpiResp" required></label>
+      <label>Frequência: <input type="text" id="kpiFreq" required></label>
+      <label>OKR Pai:
+        <select id="kpiOKR"></select>
+      </label>
+      <label>Meta (target): <input type="number" id="kpiTarget" required></label>
+      <label>Realizado: <input type="number" id="kpiReal" required></label>
+      <button type="submit">Adicionar</button>
+    </form>
+    <ul id="kpisList"></ul>
+  </main>
   <script src="js/auth.js"></script>
+  <script src="js/okrs.js"></script>
+  <script src="js/kpis.js"></script>
 </body>
 </html>
