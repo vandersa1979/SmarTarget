@@ -8,7 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
 </head>
-<body class="bg-slate-100">
+<body>
+  <div id="menu"></div>
+ class="bg-slate-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
@@ -139,5 +141,6 @@
 
         renderTable();
     </script>
+  <script src="js/auth.js"></script>
 </body>
 </html>
