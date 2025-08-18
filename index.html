@@ -101,5 +101,254 @@ document.getElementById('loginBtn').addEventListener('click', () => {
 })();
 </script>
 
+
+<script>
+// SMARTARGET TEST DATA SEED v4
+(function(){
+  const SEED_KEY = 'smartarget_seed_v4';
+  if (localStorage.getItem(SEED_KEY)) return;
+
+  function randInt(max){ return Math.floor(Math.random()*max); }
+
+  // Empresas e Filiais
+  const empresas = [
+    {nome: 'Empresa Alpha', cnpj: '11.111.111/0001-11'},
+    {nome: 'Empresa Beta', cnpj: '22.222.222/0001-22'},
+    {nome: 'Empresa Gamma', cnpj: '33.333.333/0001-33'}
+  ];
+  localStorage.setItem('empresas', JSON.stringify(empresas));
+  localStorage.setItem('filiais', JSON.stringify([
+    {nome: 'Filial SP', empresa: 'Empresa Alpha'},
+    {nome: 'Filial RJ', empresa: 'Empresa Alpha'},
+    {nome: 'Filial MG', empresa: 'Empresa Beta'}
+  ]));
+
+  // Áreas e Subáreas (já conforme v3)
+  const areas = [
+    { nome: 'Financeira', subareas: ['Contabilidade','Tesouraria','Fiscal','Planejamento Financeiro','Auditoria'] },
+    { nome: 'Pessoas (RH)', subareas: ['Recrutamento e Seleção','T&D (Treinamento e Desenvolvimento)','Administração de Pessoal','Cultura e Clima','Saúde e Segurança'] },
+    { nome: 'Operações', subareas: ['Logística','Produção','Qualidade','Suprimentos','Manutenção'] },
+    { nome: 'Marketing & Vendas', subareas: ['Comunicação Institucional','Branding','Marketing Digital','Eventos e Promoções','Trade Marketing','Pesquisa de Mercado e Inteligência Competitiva'] },
+    { nome: 'Vendas', subareas: ['Pré-Vendas (SDR / Prospecção)','Vendas Internas (Inside Sales)','Vendas Externas (Field Sales)','Pós-Venda / Sucesso do Cliente','Gestão de Canais / Distribuição','Inteligência Comercial / BI de Vendas'] },
+    { nome: 'Tecnologia', subareas: ['Desenvolvimento','Infraestrutura','Suporte'] },
+    { nome: 'Administração', subareas: ['Jurídico','Governança'] },
+    { nome: 'Outros', subareas: [] }
+  ];
+  localStorage.setItem('departamentos', JSON.stringify(areas));
+
+  // Usuários (Admin + vários colaboradores)
+  const usuarios = [
+    {nome: 'Admin Teste', email: 'admin@teste.com', senha: '123456', isAdmin: true, empresaCNPJ: '11.111.111/0001-11'},
+    {nome: 'João Silva', email: 'joao@alpha.com', senha: '123', isAdmin: false, empresaCNPJ: '11.111.111/0001-11'},
+    {nome: 'Maria Souza', email: 'maria@alpha.com', senha: '123', isAdmin: false, empresaCNPJ: '11.111.111/0001-11'},
+    {nome: 'Carlos Pereira', email: 'carlos@beta.com', senha: '123', isAdmin: false, empresaCNPJ: '22.222.222/0001-22'},
+    {nome: 'Ana Lima', email: 'ana@gamma.com', senha: '123', isAdmin: false, empresaCNPJ: '33.333.333/0001-33'}
+  ];
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+  // Equipes
+  const equipes = [
+    {nome: 'Equipe Pré-Vendas', area: 'Vendas'},
+    {nome: 'Equipe FP&A', area: 'Financeira'},
+    {nome: 'Equipe Logística', area: 'Operações'},
+    {nome: 'Equipe TI Suporte', area: 'Tecnologia'}
+  ];
+  localStorage.setItem('equipes', JSON.stringify(equipes));
+
+  // Cargos
+  const cargos = [
+    {nome: 'Diretor Financeiro', departamento: 'Financeira'},
+    {nome: 'Analista de RH', departamento: 'Pessoas (RH)'},
+    {nome: 'Coordenador de Logística', departamento: 'Operações'},
+    {nome: 'Gerente de Vendas', departamento: 'Vendas'},
+    {nome: 'Desenvolvedor', departamento: 'Tecnologia'}
+  ];
+  localStorage.setItem('cargos', JSON.stringify(cargos));
+
+  // Períodos
+  const periodos = [
+    {nome: '2025 - 1º Semestre'}, {nome: '2025 - 2º Semestre'}
+  ];
+  localStorage.setItem('periodos', JSON.stringify(periodos));
+
+  // OKRs
+  const okrs = [
+    {objetivo: 'Ser líder no mercado Brasil', pilar: 'COMERCIAL', responsavel: 'João Silva', prioridade:'Alta', status:'Em Andamento', andamento:60},
+    {objetivo: 'Atingir EBITDA de 17%', pilar: 'FINANCEIRO', responsavel: 'Maria Souza', prioridade:'Alta', status:'Em Andamento', andamento:40},
+    {objetivo: 'Reduzir custo logístico em 15%', pilar: 'OPERACIONAL', responsavel: 'Carlos Pereira', prioridade:'Média', status:'Planejado', andamento:0}
+  ];
+  localStorage.setItem('okrs', JSON.stringify(okrs));
+
+  // KPIs
+  const kpis = [
+    {nome:'Market Share Produto X', tipo:'%', valorAlvo:10, valorRealizado:6, formula:'(vendasX/total)*100', responsavelApuracao:'João Silva', okrPai:'Ser líder no mercado Brasil'},
+    {nome:'EBITDA', tipo:'%', valorAlvo:17, valorRealizado:12, formula:'lucro/liquido*100', responsavelApuracao:'Maria Souza', okrPai:'Atingir EBITDA de 17%'},
+    {nome:'Custo Logístico', tipo:'R$', valorAlvo:1000000, valorRealizado:1150000, formula:'custos.logistica', responsavelApuracao:'Carlos Pereira', okrPai:'Reduzir custo logístico em 15%'}
+  ];
+  localStorage.setItem('kpis', JSON.stringify(kpis));
+
+  // Vínculos
+  const vinculos = [
+    {okr:'Ser líder no mercado Brasil', kpi:'Market Share Produto X'},
+    {okr:'Atingir EBITDA de 17%', kpi:'EBITDA'},
+    {okr:'Reduzir custo logístico em 15%', kpi:'Custo Logístico'}
+  ];
+  localStorage.setItem('vinculos', JSON.stringify(vinculos));
+
+  localStorage.setItem(SEED_KEY, '1');
+})();
+</script>
+
+
+<script>
+// SMARTARGET BULK SEED v4 — popula muitos dados de teste
+(function(){
+  const SEED_KEY = 'smartarget_bulk_seed_v4';
+  if (localStorage.getItem(SEED_KEY)) return;
+
+  // Empresas e Filiais (6 empresas × 2 filiais)
+  const empresas = [
+    { cnpj:'10.001.001/0001-10', nome:'Alfa Logística S/A',  diretoria:'COMERCIAL' },
+    { cnpj:'11.002.002/0001-11', nome:'Beta Portos Ltda',    diretoria:'OPERACIONAL' },
+    { cnpj:'12.003.003/0001-12', nome:'Gamma Tech Brasil',   diretoria:'TECNOLOGIA' },
+    { cnpj:'13.004.004/0001-13', nome:'Delta Serviços',      diretoria:'ADMINISTRAÇÃO' },
+    { cnpj:'14.005.005/0001-14', nome:'Epsilon Trading',     diretoria:'COMERCIAL' },
+    { cnpj:'15.006.006/0001-15', nome:'Zeta Terminais',      diretoria:'FINANCEIRO' }
+  ];
+  const filiais = [];
+  empresas.forEach((e, i)=>{
+    filiais.push(
+      { cnpj:e.cnpj.replace('/0001-','/0002-'), empresaCNPJ:e.cnpj, nome:e.nome+' - Filial A', cidade:'Santos', uf:'SP' },
+      { cnpj:e.cnpj.replace('/0001-','/0003-'), empresaCNPJ:e.cnpj, nome:e.nome+' - Filial B', cidade:'Salvador', uf:'BA' }
+    );
+  });
+  localStorage.setItem('empresas', JSON.stringify(empresas));
+  localStorage.setItem('filiais', JSON.stringify(filiais));
+
+  // Áreas/Subáreas (mantém as já criadas pelo seed v3)
+  const areas = JSON.parse(localStorage.getItem('departamentos')||'[]');
+
+  // Equipes (12 equipes distribuídas nas áreas principais)
+  const eq = [
+    { nome:'Pré-Vendas', area:'Marketing & Vendas' },
+    { nome:'Inside Sales', area:'Vendas' },
+    { nome:'Field Sales', area:'Vendas' },
+    { nome:'Sucesso do Cliente', area:'Vendas' },
+    { nome:'FP&A', area:'Financeira' },
+    { nome:'Fiscal e Tributos', area:'Financeira' },
+    { nome:'Recursos Humanos', area:'Pessoas (RH)' },
+    { nome:'Recrutamento', area:'Pessoas (RH)' },
+    { nome:'Operação Portuária', area:'Operações' },
+    { nome:'Qualidade', area:'Operações' },
+    { nome:'Desenvolvimento', area:'Tecnologia' },
+    { nome:'Infraestrutura TI', area:'Tecnologia' }
+  ];
+  localStorage.setItem('equipes', JSON.stringify(eq));
+
+  // Cargos (12 cargos)
+  const cargos = [
+    { nome:'Diretor Comercial', area:'Marketing & Vendas' },
+    { nome:'Gerente de Vendas', area:'Vendas' },
+    { nome:'Coordenador de Pré-Vendas', area:'Vendas' },
+    { nome:'Analista de Sucesso do Cliente', area:'Vendas' },
+    { nome:'Analista FP&A', area:'Financeira' },
+    { nome:'Coordenador Fiscal', area:'Financeira' },
+    { nome:'Business Partner RH', area:'Pessoas (RH)' },
+    { nome:'Tech Lead', area:'Tecnologia' },
+    { nome:'Desenvolvedor Pleno', area:'Tecnologia' },
+    { nome:'Analista de Infraestrutura', area:'Tecnologia' },
+    { nome:'Supervisor Operações', area:'Operações' },
+    { nome:'Analista de Qualidade', area:'Operações' }
+  ];
+  localStorage.setItem('cargos', JSON.stringify(cargos));
+
+  // Períodos (trimestres e anual)
+  const periodos = [
+    { nome:'2025 - Anual', inicio:'2025-01-01', fim:'2025-12-31' },
+    { nome:'2025 - Q1', inicio:'2025-01-01', fim:'2025-03-31' },
+    { nome:'2025 - Q2', inicio:'2025-04-01', fim:'2025-06-30' },
+    { nome:'2025 - Q3', inicio:'2025-07-01', fim:'2025-09-30' },
+    { nome:'2025 - Q4', inicio:'2025-10-01', fim:'2025-12-31' }
+  ];
+  localStorage.setItem('periodos', JSON.stringify(periodos));
+
+  // Usuários (15 usuários incluindo ADMIN)
+  const usuarios = [
+    { nome:'Admin Teste', email:'admin@teste.com', senha:'123456', isAdmin:true, empresaCNPJ:empresas[0].cnpj },
+    { nome:'Maria Souza', email:'maria@alfa.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[0].cnpj },
+    { nome:'João Lima', email:'joao@alfa.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[0].cnpj },
+    { nome:'Ana Paula', email:'ana@beta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[1].cnpj },
+    { nome:'Carlos Henrique', email:'carlos@gamma.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[2].cnpj },
+    { nome:'Beatriz Silva', email:'bia@delta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[3].cnpj },
+    { nome:'Ricardo Alves', email:'ricardo@epsilon.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[4].cnpj },
+    { nome:'Fernanda Pires', email:'fernanda@zeta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[5].cnpj },
+    { nome:'Paulo Castro', email:'paulo@zeta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[5].cnpj },
+    { nome:'Sofia Martins', email:'sofia@gamma.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[2].cnpj },
+    { nome:'Tiago Rocha', email:'tiago@beta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[1].cnpj },
+    { nome:'Letícia Prado', email:'leticia@beta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[1].cnpj },
+    { nome:'Marcos Teles', email:'marcos@alfa.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[0].cnpj },
+    { nome:'Camila Nery', email:'camila@epsilon.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[4].cnpj },
+    { nome:'Vinícius Moraes', email:'vinicius@delta.com', senha:'123', isAdmin:false, empresaCNPJ:empresas[3].cnpj }
+  ];
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+  // OKRs (10 OKRs distribuídos por pilar)
+  const okrs = [
+    { objetivo:'Liderar o mercado Brasil em terminais logísticos', pilar:'COMERCIAL', prioridade:'Alta', status:'Em andamento', andamento:40, responsavel:'Maria Souza', periodo:'2025 - Anual' },
+    { objetivo:'Aumentar market share dos produtos X em 10%', pilar:'COMERCIAL', prioridade:'Média', status:'Em andamento', andamento:35, responsavel:'João Lima', periodo:'2025 - Q2' },
+    { objetivo:'EBITDA de 17%', pilar:'FINANCEIRO', prioridade:'Alta', status:'Em andamento', andamento:50, responsavel:'Analista FP&A', periodo:'2025 - Q4' },
+    { objetivo:'Reduzir o custo operacional em 12%', pilar:'OPERACIONAL', prioridade:'Alta', status:'Em andamento', andamento:30, responsavel:'Supervisor Operações', periodo:'2025 - Q3' },
+    { objetivo:'Melhorar NPS para 70+', pilar:'COMERCIAL', prioridade:'Média', status:'Em andamento', andamento:45, responsavel:'Sucesso do Cliente', periodo:'2025 - Q3' },
+    { objetivo:'Tempo médio de atendimento < 4h', pilar:'OPERACIONAL', prioridade:'Média', status:'Em andamento', andamento:55, responsavel:'Operação Portuária', periodo:'2025 - Q2' },
+    { objetivo:'Modernizar a stack de TI', pilar:'TECNOLOGIA', prioridade:'Alta', status:'Em andamento', andamento:25, responsavel:'Tech Lead', periodo:'2025 - Q4' },
+    { objetivo:'Implantar CI/CD e automações', pilar:'TECNOLOGIA', prioridade:'Média', status:'Em andamento', andamento:30, responsavel:'Desenvolvimento', periodo:'2025 - Q3' },
+    { objetivo:'Aprimorar Cultura e Clima', pilar:'PESSOAS (RH)', prioridade:'Média', status:'Em andamento', andamento:60, responsavel:'Business Partner RH', periodo:'2025 - Anual' },
+    { objetivo:'Excelência Financeira e Compliance', pilar:'FINANCEIRO', prioridade:'Alta', status:'Em andamento', andamento:40, responsavel:'Coordenador Fiscal', periodo:'2025 - Q2' }
+  ];
+  localStorage.setItem('okrs', JSON.stringify(okrs));
+
+  // KPIs (20 KPIs com responsável + OKR pai)
+  const kpis = [
+    { nome:'Receita Mensal Recorrente (MRR)', tipo:'Valor', valorAlvo:500000, valorRealizado:320000, responsavelApuracao:'Maria Souza', okrPai: okrs[0].objetivo },
+    { nome:'Novos Clientes por mês', tipo:'Contagem', valorAlvo:50, valorRealizado:28, responsavelApuracao:'João Lima', okrPai: okrs[0].objetivo },
+    { nome:'Market Share Produto X', tipo:'Percentual', valorAlvo:10, valorRealizado:4, responsavelApuracao:'Inside Sales', okrPai: okrs[1].objetivo },
+    { nome:'EBITDA (%)', tipo:'Percentual', valorAlvo:17, valorRealizado:8, responsavelApuracao:'Analista FP&A', okrPai: okrs[2].objetivo },
+    { nome:'Custo Operacional por TEU', tipo:'Valor', valorAlvo:180, valorRealizado:220, responsavelApuracao:'Supervisor Operações', okrPai: okrs[3].objetivo },
+    { nome:'NPS', tipo:'Valor', valorAlvo:70, valorRealizado:62, responsavelApuracao:'Sucesso do Cliente', okrPai: okrs[4].objetivo },
+    { nome:'Tempo médio de atendimento (h)', tipo:'Valor', valorAlvo:4, valorRealizado:5.5, responsavelApuracao:'Operação Portuária', okrPai: okrs[5].objetivo },
+    { nome:'Cobertura de Testes (%)', tipo:'Percentual', valorAlvo:80, valorRealizado:35, responsavelApuracao:'Tech Lead', okrPai: okrs[7].objetivo },
+    { nome:'Deploys por semana', tipo:'Contagem', valorAlvo:10, valorRealizado:4, responsavelApuracao:'Desenvolvimento', okrPai: okrs[7].objetivo },
+    { nome:'Tempo de Build (min)', tipo:'Valor', valorAlvo:10, valorRealizado:18, responsavelApuracao:'Desenvolvimento', okrPai: okrs[7].objetivo },
+    { nome:'Tempo de Recrutamento (dias)', tipo:'Valor', valorAlvo:30, valorRealizado:42, responsavelApuracao:'Recrutamento', okrPai: okrs[8].objetivo },
+    { nome:'Turnover (%)', tipo:'Percentual', valorAlvo:5, valorRealizado:7.2, responsavelApuracao:'Recursos Humanos', okrPai: okrs[8].objetivo },
+    { nome:'Treinamentos concluídos (%)', tipo:'Percentual', valorAlvo:85, valorRealizado:66, responsavelApuracao:'Business Partner RH', okrPai: okrs[8].objetivo },
+    { nome:'Conformidade fiscal (%)', tipo:'Percentual', valorAlvo:100, valorRealizado:92, responsavelApuracao:'Coordenador Fiscal', okrPai: okrs[9].objetivo },
+    { nome:'Erros fiscais por mês', tipo:'Contagem', valorAlvo:0, valorRealizado:3, responsavelApuracao:'Fiscal e Tributos', okrPai: okrs[9].objetivo },
+    { nome:'SLA Incidentes Críticos (h)', tipo:'Valor', valorAlvo:8, valorRealizado:16, responsavelApuracao:'Infraestrutura TI', okrPai: okrs[6].objetivo },
+    { nome:'Disponibilidade dos Sistemas (%)', tipo:'Percentual', valorAlvo:99.5, valorRealizado:98.7, responsavelApuracao:'Infraestrutura TI', okrPai: okrs[6].objetivo },
+    { nome:'Custo por Aquisição (CAC)', tipo:'Valor', valorAlvo:1200, valorRealizado:1650, responsavelApuracao:'Pré-Vendas', okrPai: okrs[1].objetivo },
+    { nome:'Taxa de Conversão (%)', tipo:'Percentual', valorAlvo:18, valorRealizado:12, responsavelApuracao:'Inside Sales', okrPai: okrs[1].objetivo },
+    { nome:'Backlog de Demandas', tipo:'Contagem', valorAlvo:100, valorRealizado:160, responsavelApuracao:'Tech Lead', okrPai: okrs[6].objetivo }
+  ];
+  localStorage.setItem('kpis', JSON.stringify(kpis));
+
+  // Vínculos explícitos (além do okrPai nos KPIs)
+  const vinculos = kpis.map(k=> ({ okr: k.okrPai, kpi: k.nome }));
+  localStorage.setItem('vinculos', JSON.stringify(vinculos));
+
+  // Painel de Associações (exemplo simples)
+  const associacoes = [
+    { pessoa:'Maria Souza', meta:'MRR', tipo:'KPI', peso:40 },
+    { pessoa:'João Lima', meta:'Novos Clientes por mês', tipo:'KPI', peso:30 },
+    { pessoa:'Tech Lead', meta:'Cobertura de Testes (%)', tipo:'KPI', peso:20 },
+    { pessoa:'Supervisor Operações', meta:'Custo Operacional por TEU', tipo:'KPI', peso:10 }
+  ];
+  localStorage.setItem('associacoes', JSON.stringify(associacoes));
+
+  // Define chave de semente
+  localStorage.setItem(SEED_KEY, '1');
+})();
+</script>
+
 </body>
 </html>
