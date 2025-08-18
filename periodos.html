@@ -1,23 +1,142 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Períodos de Avaliação</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Períodos de Avaliação - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
 </head>
-<body>
-  <div id="menu"></div>
-  <main>
-    <h1>Períodos de Avaliação</h1>
-    <form id="periodoForm">
-      <label>Nome do Período: <input type="text" id="periodoNome" required></label>
-      <label>Início: <input type="date" id="periodoInicio" required></label>
-      <label>Fim: <input type="date" id="periodoFim" required></label>
-      <button type="submit">Adicionar</button>
-    </form>
-    <ul id="periodosList"></ul>
-  </main>
-  <script src="js/auth.js"></script>
-  <script src="js/periodos.js"></script>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow"><a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+<a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+<a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
+<a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+<a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+<a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+<a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+<a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+<a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+<a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+<a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+<a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+<a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+</nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Cadastro de Períodos de Avaliação</h1>
+
+            <!-- Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-2xl">
+                <form id="periodoForm" class="space-y-4">
+                    <input type="hidden" id="editIndex" />
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-slate-600">Nome do Período</label>
+                        <input type="text" id="nome" placeholder="Ex: 1º Trimestre 2025" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="dataInicio" class="block text-sm font-medium text-slate-600">Data de Início</label>
+                            <input type="date" id="dataInicio" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                        </div>
+                        <div>
+                            <label for="dataFim" class="block text-sm font-medium text-slate-600">Data de Fim</label>
+                            <input type="date" id="dataFim" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Período</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-500">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nome do Período</th>
+                            <th scope="col" class="px-6 py-3">Início</th>
+                            <th scope="col" class="px-6 py-3">Fim</th>
+                            <th scope="col" class="px-6 py-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="periodoTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('periodoForm');
+        const periodoTable = document.getElementById('periodoTable');
+        let periodos = JSON.parse(localStorage.getItem('periodos')) || [];
+
+        function renderTable() {
+            periodoTable.innerHTML = '';
+            periodos.forEach((periodo, index) => {
+                const row = periodoTable.insertRow();
+                row.className = 'bg-white border-b hover:bg-slate-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${periodo.nome}</td>
+                    <td class="px-6 py-4">${new Date(periodo.dataInicio + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
+                    <td class="px-6 py-4">${new Date(periodo.dataFim + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="editPeriodo(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                        <button onclick="deletePeriodo(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                    </td>
+                `;
+            });
+        }
+
+        function editPeriodo(index) {
+            const periodo = periodos[index];
+            document.getElementById('nome').value = periodo.nome;
+            document.getElementById('dataInicio').value = periodo.dataInicio;
+            document.getElementById('dataFim').value = periodo.dataFim;
+            document.getElementById('editIndex').value = index;
+            window.scrollTo(0, 0);
+        }
+
+        function deletePeriodo(index) {
+            if (confirm('Tem certeza que deseja excluir este período?')) {
+                periodos.splice(index, 1);
+                localStorage.setItem('periodos', JSON.stringify(periodos));
+                renderTable();
+            }
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const dataInicio = document.getElementById('dataInicio').value;
+            const dataFim = document.getElementById('dataFim').value;
+            const editIndex = document.getElementById('editIndex').value;
+            const periodo = { nome, dataInicio, dataFim };
+
+            if (editIndex === '') {
+                periodos.push(periodo);
+            } else {
+                periodos[editIndex] = periodo;
+                document.getElementById('editIndex').value = '';
+            }
+
+            localStorage.setItem('periodos', JSON.stringify(periodos));
+            form.reset();
+            renderTable();
+        };
+
+        renderTable();
+    </script>
 </body>
 </html>

@@ -1,25 +1,190 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Equipes</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Equipes - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
 </head>
-<body>
-  <div id="menu"></div>
-  <main>
-    <h1>Cadastro de Equipes</h1>
-    <form id="equipeForm">
-      <label>Nome da Equipe: <input type="text" id="equipeName"></label>
-      <label>Área:
-        <select id="equipeAreaSelect"></select>
-      </label>
-      <button type="submit">Adicionar</button>
-    </form>
-    <ul id="equipesList"></ul>
-  </main>
-  <script src="js/auth.js"></script>
-  <script src="js/areas.js"></script>
-  <script src="js/equipes.js"></script>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow">
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+<a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+<a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
+<a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+<a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+<a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+<a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+<a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+<a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+<a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+<a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+<a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+<a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+</nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Cadastro de Equipes</h1>
+
+            <!-- Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-2xl">
+                <form id="equipeForm" class="space-y-4">
+                    <input type="hidden" id="editIndex" />
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-slate-600">Nome da Equipe</label>
+                        <input type="text" id="nome" placeholder="Ex: Equipe de Vendas" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
+                    </div>
+                    
+<div>
+  <label for="areaSelect" class="block text-sm font-medium text-slate-600">Área</label>
+  <select id="areaSelect" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" required></select>
+</div>
+<div class="text-right">
+
+                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Equipe</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-500">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nome da Equipe</th>
+                            <th scope="col" class="px-6 py-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equipeTable">
+                        <!-- Rows will be inserted by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('equipeForm');
+        const equipeTable = document.getElementById('equipeTable');
+        let equipes = JSON.parse(localStorage.getItem('equipes')) || [];
+
+        function renderTable() {
+            equipeTable.innerHTML = '';
+            equipes.forEach((equipe, index) => {
+                const row = equipeTable.insertRow();
+                row.className = 'bg-white border-b hover:bg-slate-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${equipe.nome}</td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="editEquipe(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                        <button onclick="deleteEquipe(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                    </td>
+                `;
+            });
+        }
+
+        function editEquipe(index) {
+            const equipe = equipes[index];
+            document.getElementById('nome').value = equipe.nome;
+            document.getElementById('editIndex').value = index;
+            window.scrollTo(0, 0);
+        }
+
+        function deleteEquipe(index) {
+            if (confirm('Tem certeza que deseja excluir esta equipe?')) {
+                equipes.splice(index, 1);
+                localStorage.setItem('equipes', JSON.stringify(equipes));
+                renderTable();
+            }
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const editIndex = document.getElementById('editIndex').value;
+            const equipe = { nome };
+
+            if (editIndex === '') {
+                equipes.push(equipe);
+            } else {
+                equipes[editIndex] = equipe;
+                document.getElementById('editIndex').value = '';
+            }
+
+            localStorage.setItem('equipes', JSON.stringify(equipes));
+            form.reset();
+            renderTable();
+        };
+
+        // Initial Load
+        renderTable();
+    </script>
+
+        <script>
+        // /*EQUIPES_SCRIPT*/
+        (function(){
+          const form = document.getElementById('equipeForm');
+          const table = document.getElementById('equipeTable');
+          const areaSelect = document.getElementById('areaSelect');
+          let equipes = JSON.parse(localStorage.getItem('equipes')) || [];
+          let areas = JSON.parse(localStorage.getItem('departamentos')) || [];
+
+          function loadAreas(){
+            areaSelect.innerHTML = '<option value="" disabled selected>Selecione a Área</option>';
+            areas.forEach(a=> areaSelect.innerHTML += `<option value="${a.nome}">${a.nome}</option>`);
+          }
+
+          function render(){
+            table.innerHTML='';
+            equipes.forEach((e, idx)=>{
+              const row = table.insertRow();
+              row.className = 'bg-white border-b hover:bg-slate-50';
+              row.innerHTML = `
+                <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${e.nome} <span class="text-xs text-slate-500">(${e.area||'—'})</span></td>
+                <td class="px-6 py-4 text-center">
+                  <button onclick="window._editEquipe(${idx})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                  <button onclick="window._delEquipe(${idx})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                </td>`;
+            });
+            localStorage.setItem('equipes', JSON.stringify(equipes));
+          }
+
+          window._editEquipe = function(idx){
+            const e = equipes[idx];
+            document.getElementById('nome').value = e.nome;
+            document.getElementById('editIndex').value = idx;
+            areaSelect.value = e.area || '';
+            window.scrollTo(0,0);
+          };
+          window._delEquipe = function(idx){ equipes.splice(idx,1); render(); };
+
+          form.addEventListener('submit', function(ev){
+            ev.preventDefault();
+            const nome = document.getElementById('nome').value.trim();
+            const area = areaSelect.value;
+            const idx = document.getElementById('editIndex').value;
+            if (!nome || !area){ alert('Preencha nome e área.'); return; }
+            const payload = { nome, area };
+            if (idx) equipes[parseInt(idx,10)] = payload; else equipes.push(payload);
+            document.getElementById('nome').value=''; document.getElementById('editIndex').value=''; areaSelect.value='';
+            render();
+          });
+
+          loadAreas();
+          render();
+        })();
+        </script>
+        
 </body>
 </html>

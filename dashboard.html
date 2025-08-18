@@ -9,31 +9,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
 </head>
-<body>
-  <div id="menu"></div>
- class="bg-slate-100">
+<body class="bg-slate-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
             <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
             <nav class="flex-grow">
-                <a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
-                <a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
-                <a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
-                <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
-                <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Departamentos</span></a>
-                <a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
-                <a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
-                <a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
-                <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
-                <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
-                <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
-                <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
-                <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
-                <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
-            </nav>
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+<a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+<a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
+<a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+<a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+<a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+<a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+<a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+<a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+<a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+<a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+<a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+<a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+</nav>
         </aside>
 
         <!-- Main Content -->
@@ -188,20 +186,20 @@
         });
     </script>
 
-    <h2>Admin Dashboard</h2>
-    <ul>
-      <li>Pessoas Pendentes de Elaboração</li>
-      <li>Visão por Área</li>
-      <li>Visão geral do status dos KPIs</li>
-    </ul>
-    <h2>Painel Colaborador</h2>
-    <ul>
-      <li>Visualizar o seu painel de metas</li>
-      <li>Pendências de inclusão ou aprovação</li>
-      <li>Atingimento das metas</li>
-    </ul>
-    
-  <script src="js/auth.js"></script>
+        <script>
+        // /*DASH_PERFIL*/
+        (function(){
+          const tipo = localStorage.getItem('smarUserType')||'';
+          // Simple banner to show visão
+          const main = document.querySelector('main');
+          if (!main) return;
+          const box = document.createElement('div');
+          box.className = 'bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-xl p-4 mb-4';
+          box.textContent = tipo === 'admin' ? 'Visão ADMIN — pendências por diretoria/área e status geral de KPIs' : 'Visão Colaborador — seu painel de metas e atingimento';
+          main.insertBefore(box, main.firstChild);
+        })();
+        </script>
+        
 </body>
 </html>
 

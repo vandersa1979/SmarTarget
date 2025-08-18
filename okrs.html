@@ -1,29 +1,327 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>OKRs</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OKRs - SmarTarget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style> body { font-family: 'Inter', sans-serif; } .sidebar { scrollbar-width: none; } </style>
 </head>
-<body>
-  <div id="menu"></div>
-  <main>
-    <h1>Gestão de Objetivos (OKRs)</h1>
-    <form id="okrForm">
-      <label>Pilar de Negócio:
-        <select id="okrPilar"></select>
-      </label>
-      <label>Descrição/Método: <input type="text" id="okrDesc" required></label>
-      <label>Período:
-        <select id="okrPeriodo"></select>
-      </label>
-      <button type="submit">Adicionar</button>
-    </form>
-    <ul id="okrsList"></ul>
-  </main>
-  <script src="js/auth.js"></script>
-  <script src="js/areas.js"></script>
-  <script src="js/periodos.js"></script>
-  <script src="js/okrs.js"></script>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
+            <nav class="flex-grow"><a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+<a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+<a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
+<a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+<a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+<a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+<a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+<a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+<a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+<a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+<a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+<a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+<a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+</nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-slate-800 mb-6">Gestão de Objetivos (OKRs)</h1>
+
+            <!-- Form -->
+            <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-4xl">
+                <form id="okrForm" class="space-y-4">
+                    <input type="hidden" id="editIndex" />
+                    
+<div>
+    <label for="pilar" class="block text-sm font-medium text-slate-600">Pilar Estratégico</label>
+    <select id="pilar" class="mt-1 block w-full input-style" required>
+        <option value="COMERCIAL">COMERCIAL</option>
+        <option value="FINANCEIRO">FINANCEIRO</option>
+        <option value="OPERACIONAL">OPERACIONAL</option>
+        <option value="PESSOAS (RH)">PESSOAS (RH)</option>
+        <option value="TECNOLOGIA">TECNOLOGIA</option>
+        <option value="ADMINISTRAÇÃO">ADMINISTRAÇÃO</option>
+    </select>
+</div>
+<div>
+            <label for="objetivo" class="block text-sm font-medium text-slate-600">Objetivo Estratégico</label>
+                        <input type="text" id="objetivo" placeholder="Ex: Aumentar a receita em 20%" class="mt-1 block w-full input-style" required />
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                            <label for="okrPai" class="block text-sm font-medium text-slate-600">OKR Pai (para encadeamento)</label>
+                            <select id="okrPai" class="mt-1 block w-full input-style"></select>
+                        </div>
+                        <div>
+                            <label for="responsavel" class="block text-sm font-medium text-slate-600">Responsável</label>
+                            <select id="responsavel" class="mt-1 block w-full input-style" required></select>
+                        </div>
+                         <div>
+                            <label for="periodo" class="block text-sm font-medium text-slate-600">Período</label>
+                            <select id="periodo" class="mt-1 block w-full input-style" required></select>
+                        </div>
+                        <div>
+                            <label for="prioridade" class="block text-sm font-medium text-slate-600">Prioridade</label>
+                            <select id="prioridade" class="mt-1 block w-full input-style" required>
+                                <option value="Baixa">Baixa</option>
+                                <option value="Média" selected>Média</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-slate-600">Status</label>
+                            <select id="status" class="mt-1 block w-full input-style" required>
+                                <option value="Não iniciado">Não iniciado</option>
+                                <option value="Em andamento">Em andamento</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Atrasado">Atrasado</option>
+                                <option value="Em espera">Em espera</option>
+                            </select>
+                        </div>
+                         <div>
+                            <label for="andamento" class="block text-sm font-medium text-slate-600">Andamento (<span id="andamentoLabel">50</span>%)</label>
+                            <input type="range" id="andamento" min="0" max="100" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar OKR</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white p-6 rounded-xl shadow-md overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-500">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Objetivo</th>
+                            <th scope="col" class="px-6 py-3">Responsável</th>
+                            <th scope="col" class="px-6 py-3">Prioridade</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3 w-48">Andamento</th>
+                            <th scope="col" class="px-6 py-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="okrTable"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Form elements
+        const form = document.getElementById('okrForm');
+        const okrTableBody = document.getElementById('okrTable');
+        const okrPaiSelect = document.getElementById('okrPai');
+        const responsavelSelect = document.getElementById('responsavel');
+        const periodoSelect = document.getElementById('periodo');
+        const andamentoSlider = document.getElementById('andamento');
+        const andamentoLabel = document.getElementById('andamentoLabel');
+
+        // Data from localStorage
+        let okrs = JSON.parse(localStorage.getItem('okrs')) || [];
+        let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        let periodos = JSON.parse(localStorage.getItem('periodos')) || [];
+
+        // Utility to load select options
+        function loadSelectOptions(select, data, placeholder, valueKey = 'nome', textKey = 'nome') {
+            select.innerHTML = `<option value="">${placeholder}</option>`;
+            data.forEach(item => {
+                select.innerHTML += `<option value="${item[valueKey]}">${item[textKey]}</option>`;
+            });
+        }
+
+        // Status and Priority styling
+        const statusMap = {
+            'Não iniciado': { text: 'Não iniciado', color: 'bg-slate-400' },
+            'Em andamento': { text: 'Em andamento', color: 'bg-blue-500' },
+            'Concluído': { text: 'Concluído', color: 'bg-green-500' },
+            'Atrasado': { text: 'Atrasado', color: 'bg-red-500' },
+            'Em espera': { text: 'Em espera', color: 'bg-yellow-500' },
+        };
+        const prioridadeMap = {
+            'Baixa': { text: 'Baixa', color: 'bg-gray-500' },
+            'Média': { text: 'Média', color: 'bg-yellow-500' },
+            'Alta': { text: 'Alta', color: 'bg-orange-500' },
+        };
+
+        function renderTable() {
+            okrTableBody.innerHTML = '';
+            okrs.forEach((okr, index) => {
+                const statusInfo = statusMap[okr.status] || { text: okr.status, color: 'bg-gray-200' };
+                const prioridadeInfo = prioridadeMap[okr.prioridade] || { text: okr.prioridade, color: 'bg-gray-200' };
+                
+                const row = okrTableBody.insertRow();
+                row.className = 'bg-white border-b hover:bg-slate-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-slate-900">${okr.objetivo}</td>
+                    <td class="px-6 py-4">${okr.responsavel}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-semibold text-white rounded-full ${prioridadeInfo.color}">${prioridadeInfo.text}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2">
+                            <div class="h-2.5 w-2.5 rounded-full ${statusInfo.color}"></div>
+                            <span>${statusInfo.text}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${okr.andamento}%"></div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-500">${okr.andamento}%</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="editOKR(${index})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
+                        <button onclick="deleteOKR(${index})" class="font-medium text-red-600 hover:underline">Excluir</button>
+                    </td>
+                `;
+            });
+            // Reload OKR parent options after table render to include new OKRs
+            loadSelectOptions(okrPaiSelect, okrs, 'Nenhum', 'objetivo', 'objetivo');
+        }
+
+        function editOKR(index) {
+            const okr = okrs[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('objetivo').value = okr.objetivo;
+            okrPaiSelect.value = okr.okrPai;
+            responsavelSelect.value = okr.responsavel;
+            periodoSelect.value = okr.periodo;
+            document.getElementById('prioridade').value = okr.prioridade;
+            document.getElementById('status').value = okr.status;
+            andamentoSlider.value = okr.andamento;
+            andamentoLabel.textContent = okr.andamento;
+            window.scrollTo(0, 0);
+        }
+
+        function deleteOKR(index) {
+            if (confirm('Tem certeza que deseja excluir este OKR?')) {
+                okrs.splice(index, 1);
+                localStorage.setItem('okrs', JSON.stringify(okrs));
+                renderTable();
+            }
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const okrData = {
+                objetivo: document.getElementById('objetivo').value,
+                okrPai: okrPaiSelect.value,
+                responsavel: responsavelSelect.value,
+                periodo: periodoSelect.value,
+                prioridade: document.getElementById('prioridade').value,
+                status: document.getElementById('status').value,
+                andamento: andamentoSlider.value,
+            };
+            const editIndex = document.getElementById('editIndex').value;
+
+            if (editIndex === '') {
+                okrs.push(okrData);
+            } else {
+                okrs[editIndex] = okrData;
+                document.getElementById('editIndex').value = '';
+            }
+
+            localStorage.setItem('okrs', JSON.stringify(okrs));
+            form.reset();
+            andamentoLabel.textContent = '50'; // Reset slider label
+            renderTable();
+        };
+
+        andamentoSlider.addEventListener('input', (e) => {
+            andamentoLabel.textContent = e.target.value;
+        });
+
+        // Initial Load
+        loadSelectOptions(responsavelSelect, usuarios, 'Selecione um responsável');
+        loadSelectOptions(periodoSelect, periodos, 'Selecione um período');
+        renderTable();
+    </script>
+
+        <script>
+        // /*OKR_ADMIN_GATE*/
+        (function(){
+          const t = localStorage.getItem('smarUserType')||'';
+          if (t !== 'admin') {
+            alert('Apenas ADMIN pode cadastrar OKRs.');
+            window.location.href = './home.html';
+          }
+        })();
+        </script>
+        
 </body>
 </html>
+
+<script>
+(function(){
+  const form = document.getElementById('okrForm');
+  const okrTableBody = document.getElementById('okrTable');
+  const okrPaiSelect = document.getElementById('okrPai');
+  const responsavelSelect = document.getElementById('responsavel');
+  const periodoSelect = document.getElementById('periodo');
+  const andamentoSlider = document.getElementById('andamento');
+  const andamentoLabel = document.getElementById('andamentoLabel');
+  const pilarSel = document.getElementById('pilar');
+
+  let okrs = JSON.parse(localStorage.getItem('okrs')||'[]');
+  let usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
+  let periodos = JSON.parse(localStorage.getItem('periodos')||'[]');
+
+  function loadSelectOptions(select, data, placeholder, valueKey = 'nome', textKey = 'nome') {
+      select.innerHTML = `<option value="">${placeholder}</option>`;
+      data.forEach(item => { select.innerHTML += `<option value="${item[valueKey]}">${item[textKey]}</option>`; });
+  }
+  function loadAll(){
+      loadSelectOptions(okrPaiSelect, okrs, 'Sem OKR Pai', 'objetivo', 'objetivo');
+      loadSelectOptions(responsavelSelect, usuarios, 'Selecione o responsável');
+      loadSelectOptions(periodoSelect, periodos, 'Selecione o período');
+  }
+  function render(){
+      okrTableBody.innerHTML='';
+      okrs.forEach((o, idx)=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+          <td class="px-6 py-4 font-medium text-slate-900">${o.objetivo} <span class="text-xs text-slate-500">[${o.pilar||'-'}]</span></td>
+          <td class="px-6 py-4">${o.responsavel||'-'}</td>
+          <td class="px-6 py-4">${o.prioridade||'-'}</td>
+          <td class="px-6 py-4">${o.status||'-'}</td>
+          <td class="px-6 py-4"><div class="w-40 bg-slate-200 rounded h-2"><div class="h-2 rounded bg-blue-500" style="width:${o.andamento||0}%"></div></div></td>
+          <td class="px-6 py-4 text-center"><button onclick="window._delOKR(${idx})" class="text-red-600 hover:underline">Excluir</button></td>`;
+          okrTableBody.appendChild(tr);
+      });
+      localStorage.setItem('okrs', JSON.stringify(okrs));
+  }
+  window._delOKR = function(i){ okrs.splice(i,1); render(); }
+  document.getElementById('andamento').addEventListener('input', e=> document.getElementById('andamentoLabel').textContent = e.target.value);
+  form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const payload = {
+          objetivo: document.getElementById('objetivo').value.trim(),
+          okrPai: okrPaiSelect.value || '',
+          responsavel: responsavelSelect.value || '',
+          periodo: periodoSelect.value || '',
+          prioridade: document.getElementById('prioridade').value,
+          status: document.getElementById('status').value,
+          andamento: parseInt(document.getElementById('andamento').value,10)||0,
+          pilar: pilarSel.value
+      };
+      okrs.push(payload);
+      render();
+      form.reset();
+      document.getElementById('andamento').value=50; document.getElementById('andamentoLabel').textContent='50';
+      loadAll();
+  });
+  loadAll();
+  render();
+})();
+</script>

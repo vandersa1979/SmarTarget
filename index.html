@@ -22,54 +22,40 @@
                 <p class="text-slate-500">Faça login para continuar</p>
             </div>
             <div class="space-y-6">
-                <div>
-                    <label for="userType" class="block text-sm font-medium text-slate-600 mb-1">Tipo de Usuário</label>
-                    <select id="userType" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="" disabled selected>Selecione o tipo</option>
-                        <option value="admin">Admin</option>
-                        <option value="gestor">Gestor</option>
-                        <option value="colaborador">Colaborador</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-slate-600 mb-1">Senha</label>
-                    <input type="password" id="password" placeholder="••••••••" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <button id="loginBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                    Entrar
-                </button>
+                
+<div>
+  <label for="email" class="block text-sm font-medium text-slate-600 mb-1">E-mail</label>
+  <input type="email" id="email" placeholder="voce@empresa.com.br" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+<div>
+  <label for="password" class="block text-sm font-medium text-slate-600 mb-1">Senha</label>
+  <input type="password" id="password" placeholder="••••••••" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+<button id="loginBtn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300">Entrar</button>
+
             </div>
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            const userType = document.getElementById('userType').value;
-            const password = document.getElementById('password').value.trim();
-            if (!userType) {
-                alert('Por favor, selecione o tipo de usuário.');
-                return;
-            }
-            if (!password) {
-                alert('Por favor, informe a senha.');
-                return;
-            }
-            // Simples validação de senha padrão para exemplo
-            const validPasswords = {
-                admin: 'admin123',
-                gestor: 'gestor123',
-                vander: 'vander123',
-                colaborador: 'colab123'
-            };
-            if (password !== validPasswords[userType]) {
-                alert('Senha incorreta para o tipo de usuário selecionado.');
-                return;
-            }
-            // Salvar tipo de usuário no localStorage
-            localStorage.setItem('smarUserType', userType);
-            // Redirecionar para home.html
-            window.location.href = './home.html';
-        });
-    </script>
+    
+<script>
+// Login por e-mail e senha; define ADMIN (acessa todas as empresas) ou vínculo a 1 CNPJ
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const email = (document.getElementById('email').value||'').trim().toLowerCase();
+  const password = (document.getElementById('password').value||'').trim();
+  if (!email) { alert('Informe o e-mail.'); return; }
+  if (!password) { alert('Informe a senha.'); return; }
+  const usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
+  const u = usuarios.find(x => (x.email||'').toLowerCase() === email);
+  if (!u) { alert('Usuário não encontrado. Peça ao ADMIN para cadastrar.'); return; }
+  if ((u.senha||'') !== password) { alert('Senha inválida.'); return; }
+  // Persistir perfil e CNPJ (se houver)
+  localStorage.setItem('smarUserType', u.isAdmin ? 'admin' : 'colaborador');
+  if (u.isAdmin) localStorage.removeItem('smarEmpresaCNPJ');
+  else if (u.empresaCNPJ) localStorage.setItem('smarEmpresaCNPJ', u.empresaCNPJ);
+  window.location.href = './home.html';
+});
+</script>
+
 </body>
 </html>
