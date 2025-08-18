@@ -240,5 +240,49 @@
         })();
         </script>
         
+
+<script>
+// SMARTARGET GLOBAL SEED v3
+(function(){
+  const SEED_KEY = 'smartarget_seed_v3';
+  if (localStorage.getItem(SEED_KEY)) return;
+
+  // 1) Áreas e Subáreas
+  const areas = [
+    { nome: 'Financeira', subareas: ['Contabilidade','Tesouraria','Fiscal','Planejamento Financeiro','Auditoria'] },
+    { nome: 'Pessoas (RH)', subareas: ['Recrutamento e Seleção','T&D (Treinamento e Desenvolvimento)','Administração de Pessoal','Cultura e Clima','Saúde e Segurança'] },
+    { nome: 'Operações', subareas: ['Logística','Produção','Qualidade','Suprimentos','Manutenção'] },
+    { nome: 'Marketing & Vendas', subareas: ['Comunicação Institucional','Branding','Marketing Digital','Eventos e Promoções','Trade Marketing','Pesquisa de Mercado e Inteligência Competitiva'] },
+    { nome: 'Vendas', subareas: ['Pré-Vendas (SDR / Prospecção)','Vendas Internas (Inside Sales)','Vendas Externas (Field Sales)','Pós-Venda / Sucesso do Cliente','Gestão de Canais / Distribuição','Inteligência Comercial / BI de Vendas'] },
+    { nome: 'Tecnologia', subareas: [] },
+    { nome: 'Administração', subareas: [] },
+    { nome: 'Outros', subareas: [] }
+  ];
+  if (!localStorage.getItem('departamentos')) {
+    localStorage.setItem('departamentos', JSON.stringify(areas));
+  }
+
+  // 2) Usuário ADMIN de teste (e-mail/senha)
+  // Só cria se ainda não existir nenhum usuário
+  if (!localStorage.getItem('usuarios')) {
+    const admin = [{
+      nome: 'Admin Teste',
+      email: 'admin@teste.com',
+      senha: '123456',
+      isAdmin: true,
+      empresaCNPJ: '00.000.000/0001-00'
+    }];
+    localStorage.setItem('usuarios', JSON.stringify(admin));
+  }
+
+  // 3) Estruturas-base vazias (okrs, kpis, equipes, periodos, vinculos)
+  ['okrs','kpis','equipes','periodos','vinculos'].forEach(k=>{
+    if (!localStorage.getItem(k)) localStorage.setItem(k, '[]');
+  });
+
+  localStorage.setItem(SEED_KEY, '1');
+})();
+</script>
+
 </body>
 </html>
