@@ -28,6 +28,14 @@
 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
 <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
 <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
@@ -185,21 +193,6 @@
             updateDashboard(okrs); // Load with all data initially
         });
     </script>
-
-        <script>
-        // /*DASH_PERFIL*/
-        (function(){
-          const tipo = localStorage.getItem('smarUserType')||'';
-          // Simple banner to show visão
-          const main = document.querySelector('main');
-          if (!main) return;
-          const box = document.createElement('div');
-          box.className = 'bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-xl p-4 mb-4';
-          box.textContent = tipo === 'admin' ? 'Visão ADMIN — pendências por diretoria/área e status geral de KPIs' : 'Visão Colaborador — seu painel de metas e atingimento';
-          main.insertBefore(box, main.firstChild);
-        })();
-        </script>
-        
 </body>
 </html>
 

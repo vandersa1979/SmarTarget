@@ -13,7 +13,8 @@
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
             <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
-            <nav class="flex-grow"><a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+            <nav class="flex-grow">
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
 <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
 <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
@@ -26,6 +27,14 @@
 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
 <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
 <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
@@ -40,20 +49,8 @@
             <div class="bg-white p-6 rounded-xl shadow-md mb-8 max-w-4xl">
                 <form id="okrForm" class="space-y-4">
                     <input type="hidden" id="editIndex" />
-                    
-<div>
-    <label for="pilar" class="block text-sm font-medium text-slate-600">Pilar Estratégico</label>
-    <select id="pilar" class="mt-1 block w-full input-style" required>
-        <option value="COMERCIAL">COMERCIAL</option>
-        <option value="FINANCEIRO">FINANCEIRO</option>
-        <option value="OPERACIONAL">OPERACIONAL</option>
-        <option value="PESSOAS (RH)">PESSOAS (RH)</option>
-        <option value="TECNOLOGIA">TECNOLOGIA</option>
-        <option value="ADMINISTRAÇÃO">ADMINISTRAÇÃO</option>
-    </select>
-</div>
-<div>
-            <label for="objetivo" class="block text-sm font-medium text-slate-600">Objetivo Estratégico</label>
+                    <div>
+                        <label for="objetivo" class="block text-sm font-medium text-slate-600">Objetivo Estratégico</label>
                         <input type="text" id="objetivo" placeholder="Ex: Aumentar a receita em 20%" class="mt-1 block w-full input-style" required />
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -247,81 +244,5 @@
         loadSelectOptions(periodoSelect, periodos, 'Selecione um período');
         renderTable();
     </script>
-
-        <script>
-        // /*OKR_ADMIN_GATE*/
-        (function(){
-          const t = localStorage.getItem('smarUserType')||'';
-          if (t !== 'admin') {
-            alert('Apenas ADMIN pode cadastrar OKRs.');
-            window.location.href = './home.html';
-          }
-        })();
-        </script>
-        
 </body>
 </html>
-
-<script>
-(function(){
-  const form = document.getElementById('okrForm');
-  const okrTableBody = document.getElementById('okrTable');
-  const okrPaiSelect = document.getElementById('okrPai');
-  const responsavelSelect = document.getElementById('responsavel');
-  const periodoSelect = document.getElementById('periodo');
-  const andamentoSlider = document.getElementById('andamento');
-  const andamentoLabel = document.getElementById('andamentoLabel');
-  const pilarSel = document.getElementById('pilar');
-
-  let okrs = JSON.parse(localStorage.getItem('okrs')||'[]');
-  let usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
-  let periodos = JSON.parse(localStorage.getItem('periodos')||'[]');
-
-  function loadSelectOptions(select, data, placeholder, valueKey = 'nome', textKey = 'nome') {
-      select.innerHTML = `<option value="">${placeholder}</option>`;
-      data.forEach(item => { select.innerHTML += `<option value="${item[valueKey]}">${item[textKey]}</option>`; });
-  }
-  function loadAll(){
-      loadSelectOptions(okrPaiSelect, okrs, 'Sem OKR Pai', 'objetivo', 'objetivo');
-      loadSelectOptions(responsavelSelect, usuarios, 'Selecione o responsável');
-      loadSelectOptions(periodoSelect, periodos, 'Selecione o período');
-  }
-  function render(){
-      okrTableBody.innerHTML='';
-      okrs.forEach((o, idx)=>{
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-          <td class="px-6 py-4 font-medium text-slate-900">${o.objetivo} <span class="text-xs text-slate-500">[${o.pilar||'-'}]</span></td>
-          <td class="px-6 py-4">${o.responsavel||'-'}</td>
-          <td class="px-6 py-4">${o.prioridade||'-'}</td>
-          <td class="px-6 py-4">${o.status||'-'}</td>
-          <td class="px-6 py-4"><div class="w-40 bg-slate-200 rounded h-2"><div class="h-2 rounded bg-blue-500" style="width:${o.andamento||0}%"></div></div></td>
-          <td class="px-6 py-4 text-center"><button onclick="window._delOKR(${idx})" class="text-red-600 hover:underline">Excluir</button></td>`;
-          okrTableBody.appendChild(tr);
-      });
-      localStorage.setItem('okrs', JSON.stringify(okrs));
-  }
-  window._delOKR = function(i){ okrs.splice(i,1); render(); }
-  document.getElementById('andamento').addEventListener('input', e=> document.getElementById('andamentoLabel').textContent = e.target.value);
-  form.addEventListener('submit', function(ev){
-      ev.preventDefault();
-      const payload = {
-          objetivo: document.getElementById('objetivo').value.trim(),
-          okrPai: okrPaiSelect.value || '',
-          responsavel: responsavelSelect.value || '',
-          periodo: periodoSelect.value || '',
-          prioridade: document.getElementById('prioridade').value,
-          status: document.getElementById('status').value,
-          andamento: parseInt(document.getElementById('andamento').value,10)||0,
-          pilar: pilarSel.value
-      };
-      okrs.push(payload);
-      render();
-      form.reset();
-      document.getElementById('andamento').value=50; document.getElementById('andamentoLabel').textContent='50';
-      loadAll();
-  });
-  loadAll();
-  render();
-})();
-</script>

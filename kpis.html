@@ -13,7 +13,8 @@
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
             <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
-            <nav class="flex-grow"><a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+            <nav class="flex-grow">
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
 <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
 <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
@@ -26,6 +27,14 @@
 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
 <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
 <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
@@ -44,17 +53,7 @@
                         <label for="nome" class="block text-sm font-medium text-slate-600">Nome do Indicador</label>
                         <input type="text" id="nome" placeholder="Ex: Taxa de Conversão de Vendas" class="mt-1 block w-full input-style" required />
                     </div>
-                    
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="md:col-span-1">
-        <label for="responsavelApuracao" class="block text-sm font-medium text-slate-600">Responsável pela apuração</label>
-        <select id="responsavelApuracao" class="mt-1 block w-full input-style"></select>
-    </div>
-    <div class="md:col-span-1">
-        <label for="okrPai" class="block text-sm font-medium text-slate-600">OKR (Pai)</label>
-        <select id="okrPai" class="mt-1 block w-full input-style"></select>
-    </div>
-<div class="md:col-span-1">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label for="tipo" class="block text-sm font-medium text-slate-600">Tipo</label>
                             <select id="tipo" class="mt-1 block w-full input-style" required>
@@ -187,66 +186,5 @@
         // Initial Load
         renderTable();
     </script>
-
-        <script>
-        // /*KPI_RESP_OKR*/
-        (function(){
-          const form = document.getElementById('kpiForm');
-          const kpiTableBody = document.getElementById('kpiTable');
-          let kpis = JSON.parse(localStorage.getItem('kpis')||'[]');
-          const okrs = JSON.parse(localStorage.getItem('okrs')||'[]');
-          const usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
-
-          const respSel = document.getElementById('responsavelApuracao');
-          const okrSel = document.getElementById('okrPai');
-
-          function load(){
-            respSel.innerHTML = '<option value="">Selecione</option>';
-            usuarios.forEach(u=> respSel.innerHTML += `<option value="${u.nome||u.email}">${u.nome||u.email}</option>`);
-            okrSel.innerHTML = '<option value="">(Opcional)</option>';
-            okrs.forEach(o=> okrSel.innerHTML += `<option value="${o.objetivo}">${o.objetivo}</option>`);
-          }
-          function render(){
-            kpiTableBody.innerHTML='';
-            kpis.forEach((k, idx)=>{
-              const percent = k.valorAlvo ? Math.round((k.valorRealizado / k.valorAlvo) * 100) : 0;
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td class="px-6 py-4 font-medium text-slate-900">${k.nome}<div class="text-xs text-slate-500">${k.okrPai? 'OKR: '+k.okrPai : ''}</div></td>
-                <td class="px-6 py-4">${k.tipo||'-'}</td>
-                <td class="px-6 py-4">${k.valorAlvo||0}</td>
-                <td class="px-6 py-4">${k.valorRealizado||0}</td>
-                <td class="px-6 py-4 w-48"><div class="w-40 bg-slate-200 rounded h-2"><div class="h-2 rounded bg-green-500" style="width:${percent}%"></div></div></td>
-                <td class="px-6 py-4 text-center">
-                  <div class="text-xs text-slate-500">Resp.: ${k.responsavelApuracao||'-'}</div>
-                  <button onclick="window._delKPI(${idx})" class="text-red-600 hover:underline">Excluir</button>
-                </td>`;
-              kpiTableBody.appendChild(tr);
-            });
-            localStorage.setItem('kpis', JSON.stringify(kpis));
-          }
-          window._delKPI = function(i){ kpis.splice(i,1); render(); }
-
-          form.addEventListener('submit', function(ev){
-            ev.preventDefault();
-            const payload = {
-              nome: document.getElementById('nome').value.trim(),
-              tipo: document.getElementById('tipo').value,
-              valorAlvo: parseFloat(document.getElementById('valorAlvo').value)||0,
-              valorRealizado: parseFloat(document.getElementById('valorRealizado').value)||0,
-              formula: document.getElementById('formula').value.trim(),
-              responsavelApuracao: respSel.value,
-              okrPai: okrSel.value
-            };
-            kpis.push(payload);
-            render();
-            form.reset();
-          });
-
-          load();
-          render();
-        })();
-        </script>
-        
 </body>
 </html>

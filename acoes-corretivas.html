@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard - SmarTarget</title>
+    <title>ACOES-CORRETIVAS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -48,27 +48,94 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8 overflow-y-auto">
-            <h1 class="text-3xl font-bold text-slate-800 mb-6">Bem-vindo ao SmarTarget!</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./okrs.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Gestão de OKRs</h2>
-                    <p class="text-slate-500">Defina, acompanhe e gerencie os objetivos estratégicos.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./kpis.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Gestão de KPIs</h2>
-                    <p class="text-slate-500">Monitore os indicadores chave de desempenho.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./dashboard.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Dashboard</h2>
-                    <p class="text-slate-500">Visualize o desempenho geral em gráficos interativos.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./usuarios.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Cadastros</h2>
-                    <p class="text-slate-500">Gerencie usuários, equipes, empresas e mais.</p>
-                </div>
-            </div>
-        </main>
+        <main class="flex-1 p-6">
+<h1 class="text-2xl font-bold mb-4">Ações Corretivas (FCA)</h1>
+<div class="bg-white p-4 rounded-xl border space-y-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <label class="block text-sm font-medium">Título</label>
+      <input id="ac_titulo" class="input-style w-full mt-1"/>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Relacionado a</label>
+      <select id="ac_tipo" class="input-style w-full mt-1">
+        <option value="KPI">KPI</option>
+        <option value="OKR">OKR</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Item</label>
+      <select id="ac_item" class="input-style w-full mt-1"></select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Responsável</label>
+      <input id="ac_resp" class="input-style w-full mt-1"/>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Prazo</label>
+      <input id="ac_prazo" type="date" class="input-style w-full mt-1"/>
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Status</label>
+      <select id="ac_status" class="input-style w-full mt-1">
+        <option value="Aberta">Aberta</option>
+        <option value="Em execução">Em execução</option>
+        <option value="Concluída">Concluída</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <label class="block text-sm font-medium">Descrição</label>
+    <textarea id="ac_desc" class="input-style w-full mt-1" rows="4"></textarea>
+  </div>
+  <div class="text-right">
+    <button id="ac_add" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Registrar Ação</button>
+  </div>
+</div>
+<div class="bg-white p-4 rounded-xl border mt-6">
+  <h2 class="text-xl font-semibold mb-2">Ações</h2>
+  <table class="w-full text-sm">
+    <thead><tr><th class="p-2 text-left">Título</th><th class="p-2 text-left">Relacionado</th><th class="p-2 text-left">Prazo</th><th class="p-2 text-left">Status</th><th class="p-2 text-left">Responsável</th></tr></thead>
+    <tbody id="ac_table"></tbody>
+  </table>
+</div>
+<script>
+(function(){
+  const okrs=JSON.parse(localStorage.getItem('okrs')||'[]');
+  const kpis=JSON.parse(localStorage.getItem('kpis')||'[]');
+  const selTipo = document.getElementById('ac_tipo');
+  const selItem = document.getElementById('ac_item');
+  function loadItems(){
+    const arr = selTipo.value==='OKR' ? okrs.map(o=>o.objetivo): kpis.map(k=>k.nome);
+    selItem.innerHTML = arr.map(v=>`<option value="${v}">${v}</option>`).join('');
+  }
+  selTipo.onchange = loadItems; loadItems();
+
+  let acoes = JSON.parse(localStorage.getItem('acoesCorretivas')||'[]');
+  const table = document.getElementById('ac_table');
+  function render(){
+    table.innerHTML = acoes.map(a=>`<tr class="border-b">
+      <td class="p-2">${a.titulo}</td><td class="p-2">${a.tipo}: ${a.item}</td>
+      <td class="p-2">${a.prazo||''}</td><td class="p-2">${a.status}</td><td class="p-2">${a.resp}</td>
+    </tr>`).join('');
+    localStorage.setItem('acoesCorretivas', JSON.stringify(acoes));
+  }
+  document.getElementById('ac_add').onclick=function(){
+    const o={
+      titulo: document.getElementById('ac_titulo').value,
+      tipo: selTipo.value,
+      item: selItem.value,
+      resp: document.getElementById('ac_resp').value,
+      prazo: document.getElementById('ac_prazo').value,
+      status: document.getElementById('ac_status').value,
+      desc: document.getElementById('ac_desc').value
+    };
+    acoes.unshift(o); render();
+  };
+  render();
+})();
+</script>
+</main>
     </div>
 </body>
 </html>

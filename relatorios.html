@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard - SmarTarget</title>
+    <title>RELATORIOS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -48,27 +48,76 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8 overflow-y-auto">
-            <h1 class="text-3xl font-bold text-slate-800 mb-6">Bem-vindo ao SmarTarget!</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./okrs.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Gestão de OKRs</h2>
-                    <p class="text-slate-500">Defina, acompanhe e gerencie os objetivos estratégicos.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./kpis.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Gestão de KPIs</h2>
-                    <p class="text-slate-500">Monitore os indicadores chave de desempenho.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./dashboard.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Dashboard</h2>
-                    <p class="text-slate-500">Visualize o desempenho geral em gráficos interativos.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer" onclick="location.href='./usuarios.html'">
-                    <h2 class="text-xl font-bold text-slate-700 mb-2">Cadastros</h2>
-                    <p class="text-slate-500">Gerencie usuários, equipes, empresas e mais.</p>
-                </div>
-            </div>
-        </main>
+        <main class="flex-1 p-6">
+<h1 class="text-2xl font-bold mb-4">Relatórios</h1>
+<div class="bg-white p-4 rounded-xl border space-y-4">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div>
+      <label class="block text-sm font-medium">Tipo</label>
+      <select id="rep_tipo" class="input-style w-full mt-1">
+        <option value="KPIs">KPIs</option>
+        <option value="OKRs">OKRs</option>
+        <option value="Checkins">Check-ins</option>
+        <option value="Acoes">Ações Corretivas</option>
+      </select>
+    </div>
+    <div class="flex items-end">
+      <button id="rep_gerar" class="bg-blue-600 text-white px-4 py-2 rounded-lg w-full">Gerar</button>
+    </div>
+    <div class="flex items-end">
+      <button id="rep_csv" class="bg-slate-700 text-white px-4 py-2 rounded-lg w-full">Exportar CSV</button>
+    </div>
+  </div>
+  <div class="overflow-auto">
+    <table class="w-full text-sm mt-4"><thead id="rep_head"></thead><tbody id="rep_body"></tbody></table>
+  </div>
+</div>
+<script>
+(function(){
+  const head = document.getElementById('rep_head');
+  const body = document.getElementById('rep_body');
+  let current = {head:[], rows:[]};
+
+  function render(){
+    head.innerHTML = '<tr>'+ current.head.map(h=>`<th class="p-2 text-left">${h}</th>`).join('') +'</tr>';
+    body.innerHTML = current.rows.map(r=> '<tr class="border-b">'+ r.map(c=>`<td class="p-2">${c}</td>`).join('') +'</tr>' ).join('');
+  }
+
+  document.getElementById('rep_gerar').onclick=function(){
+    const t = document.getElementById('rep_tipo').value;
+    if (t==='KPIs'){
+      const k = JSON.parse(localStorage.getItem('kpis')||'[]');
+      current.head = ['KPI','Tipo','Alvo','Realizado','OKR (Pai)','Responsável'];
+      current.rows = k.map(x=>[x.nome,x.tipo,x.valorAlvo||0,x.valorRealizado||0,x.okrPai||'',x.responsavelApuracao||'']);
+    } else if (t==='OKRs'){
+      const o = JSON.parse(localStorage.getItem('okrs')||'[]');
+      current.head = ['Objetivo','Pilar','Prioridade','Status','% Andamento','Responsável','Período'];
+      current.rows = o.map(x=>[x.objetivo,x.pilar||'',x.prioridade||'',x.status||'',x.andamento||0,x.responsavel||'',x.periodo||'']);
+    } else if (t==='Checkins'){
+      const c = JSON.parse(localStorage.getItem('checkins')||'[]');
+      current.head = ['Tipo','Item','Data','%','Notas'];
+      current.rows = c.map(x=>[x.tipo,x.item,x.data,x.pct,x.notas]);
+    } else {
+      const a = JSON.parse(localStorage.getItem('acoesCorretivas')||'[]');
+      current.head = ['Título','Relacionado','Prazo','Status','Responsável','Descrição'];
+      current.rows = a.map(x=>[x.titulo, x.tipo+': '+x.item, x.prazo||'', x.status||'', x.resp||'', x.desc||'']);
+    }
+    render();
+  };
+
+  document.getElementById('rep_csv').onclick=function(){
+    if (!current.rows.length){ alert('Gere um relatório primeiro.'); return; }
+    const csv = [current.head.join(';')].concat(current.rows.map(r=> r.map(c=>(''+c).replaceAll(';',',')).join(';'))).join('
+');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'relatorio.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+})();
+</script>
+</main>
     </div>
 </body>
 </html>

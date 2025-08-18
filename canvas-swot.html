@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CANVAS-SWOT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar { scrollbar-width: none; -ms-overflow-style: none; }
+        .sidebar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-slate-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
+            <div class="text-center py-4 mb-5">
+                <h1 class="text-2xl font-bold">SmarTarget</h1>
+            </div>
+            <nav class="flex-grow">
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
+<a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
+<a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
+<a href="./equipes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👥 Equipes</span></a>
+<a href="./cargos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>💼 Cargos</span></a>
+<a href="./usuarios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>👤 Usuários</span></a>
+<a href="./periodos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗓️ Períodos de Avaliação</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Gestão de Metas</h2>
+<a href="./okrs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🎯 OKRs</span></a>
+<a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
+<a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
+<a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
+<a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
+<a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
+</nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+<h1 class="text-2xl font-bold mb-4">Canvas Estratégico & SWOT</h1>
+<div class="bg-white p-4 rounded-xl border space-y-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Proposta de Valor</label>
+      <textarea id="cv_proposta" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Segmentos de Clientes</label>
+      <textarea id="cv_segmentos" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Canais</label>
+      <textarea id="cv_canais" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Relacionamento</label>
+      <textarea id="cv_relacionamento" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Fontes de Receita</label>
+      <textarea id="cv_receita" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Recursos–chave</label>
+      <textarea id="cv_recursos" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Atividades–chave</label>
+      <textarea id="cv_atividades" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Parcerias–chave</label>
+      <textarea id="cv_parcerias" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Estrutura de Custos</label>
+      <textarea id="cv_custos" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+  </div>
+  <div class="flex gap-2">
+    <button id="cv_save" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Salvar Canvas</button>
+    <button id="cv_clear" class="bg-slate-200 px-4 py-2 rounded-lg">Limpar</button>
+  </div>
+</div>
+
+<div class="bg-white p-4 rounded-xl border space-y-4 mt-6">
+  <h2 class="text-xl font-semibold">SWOT</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Forças (Strengths)</label>
+      <textarea id="swot_s" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Fraquezas (Weaknesses)</label>
+      <textarea id="swot_w" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Oportunidades (Opportunities)</label>
+      <textarea id="swot_o" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-600">Ameaças (Threats)</label>
+      <textarea id="swot_t" class="mt-1 w-full input-style" rows="4"></textarea>
+    </div>
+  </div>
+  <div class="flex gap-2">
+    <button id="swot_save" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Salvar SWOT</button>
+    <button id="swot_clear" class="bg-slate-200 px-4 py-2 rounded-lg">Limpar</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Canvas
+  const F='canvas_model', S='swot_model';
+  const ids=['cv_proposta','cv_segmentos','cv_canais','cv_relacionamento','cv_receita','cv_recursos','cv_atividades','cv_parcerias','cv_custos'];
+  const sw=['swot_s','swot_w','swot_o','swot_t'];
+  const data = JSON.parse(localStorage.getItem(F)||'{}');
+  ids.forEach(id=>{ const el=document.getElementById(id); if(el && data[id]) el.value=data[id]; });
+  document.getElementById('cv_save').onclick=function(){
+    const o={}; ids.forEach(id=> o[id]=document.getElementById(id).value);
+    localStorage.setItem(F, JSON.stringify(o)); alert('Canvas salvo.');
+  };
+  document.getElementById('cv_clear').onclick=function(){ localStorage.removeItem(F); location.reload(); };
+
+  // SWOT
+  const d2 = JSON.parse(localStorage.getItem(S)||'{}');
+  sw.forEach(id=>{ const el=document.getElementById(id); if(el && d2[id]) el.value=d2[id]; });
+  document.getElementById('swot_save').onclick=function(){
+    const o={}; sw.forEach(id=> o[id]=document.getElementById(id).value);
+    localStorage.setItem(S, JSON.stringify(o)); alert('SWOT salva.');
+  };
+  document.getElementById('swot_clear').onclick=function(){ localStorage.removeItem(S); location.reload(); };
+})();
+</script>
+</main>
+    </div>
+</body>
+</html>

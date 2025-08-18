@@ -79,7 +79,8 @@
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
             <div class="text-center py-4 mb-5"><h1 class="text-2xl font-bold">SmarTarget</h1></div>
-            <nav class="flex-grow"><a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
+            <nav class="flex-grow">
+<a href="./home.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏠 Início</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Cadastros</h2>
 <a href="./empresas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🏢 Empresas e Filiais</span></a>
 <a href="./departamentos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📂 Áreas</span></a>
@@ -92,6 +93,14 @@
 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
 <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
 <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
@@ -164,48 +173,50 @@
             treeContainer.innerHTML = buildTreeHtml(treeData);
         });
     </script>
-
-        <script>
-        // /*MAPA_TREE*/
-        (function(){
-          const container = document.getElementById('okr-tree');
-          const okrs = JSON.parse(localStorage.getItem('okrs')||'[]');
-          const kpis = JSON.parse(localStorage.getItem('kpis')||'[]');
-
-          // Build tree by pilar -> OKR -> KPIs
-          const byPilar = {};
-          okrs.forEach(o=>{
-            const p = o.pilar || 'SEM PILAR';
-            byPilar[p] = byPilar[p] || [];
-            byPilar[p].push(o);
-          });
-
-          function node(html){ const li = document.createElement('li'); li.innerHTML = html; return li; }
-
-          const topUl = document.createElement('ul'); topUl.style.listStyle='none';
-          Object.keys(byPilar).forEach(p=>{
-            const pilUl = document.createElement('ul');
-            const pilLi = node(`<div><strong>${p}</strong></div>`);
-            const okrUl = document.createElement('ul');
-            (byPilar[p]||[]).forEach(o=>{
-              const okrLi = node(`<div>${o.objetivo} <span class="text-xs text-slate-500">(${o.status||'-'})</span></div>`);
-              const kUl = document.createElement('ul');
-              kpis.filter(k=> (k.okrPai||'') === o.objetivo).forEach(k=>{
-                const percent = k.valorAlvo ? Math.round((k.valorRealizado / k.valorAlvo)*100):0;
-                const kLi = node(`<div>${k.nome} <span class="text-xs text-slate-500">[${percent}%]</span><div class="text-xs text-slate-400">Resp.: ${k.responsavelApuracao||'-'}</div></div>`);
-                kUl.appendChild(kLi);
-              });
-              okrLi.appendChild(kUl);
-              okrUl.appendChild(okrLi);
-            });
-            pilLi.appendChild(okrUl);
-            pilUl.appendChild(pilLi);
-            topUl.appendChild(pilUl);
-          });
-          container.innerHTML='';
-          container.appendChild(topUl);
-        })();
-        </script>
-        
 </body>
 </html>
+
+<script>
+// /*ME_FILTER_SCRIPT*/
+(function(){
+  const pilarSel = document.getElementById('me_pilar');
+  const perSel = document.getElementById('me_periodo');
+  const okrs = JSON.parse(localStorage.getItem('okrs')||'[]');
+  const periods = JSON.parse(localStorage.getItem('periodos')||'[]');
+  perSel.innerHTML = '<option value="">Todos os Períodos</option>' + periods.map(p=>`<option>${p.nome}</option>`).join('');
+  function refresh(){
+    // trigger our existing builder if present
+    if (typeof buildOKRTree === 'function') buildOKRTree(pilarSel.value, perSel.value);
+  }
+  pilarSel.onchange = refresh; perSel.onchange = refresh;
+  // expose a build function wrapper for existing map script
+  window.buildOKRTree = window.buildOKRTree || function(pilarFiltro, periodoFiltro){
+    const container = document.getElementById('okr-tree');
+    const kpis = JSON.parse(localStorage.getItem('kpis')||'[]');
+    const byPilar = {};
+    okrs.filter(o=> !pilarFiltro || o.pilar===pilarFiltro).filter(o=> !periodoFiltro || o.periodo===periodoFiltro).forEach(o=>{
+      const p = o.pilar || 'SEM PILAR'; byPilar[p]=byPilar[p]||[]; byPilar[p].push(o);
+    });
+    function node(html){ const li = document.createElement('li'); li.innerHTML = html; return li; }
+    const topUl = document.createElement('ul'); topUl.style.listStyle='none';
+    Object.keys(byPilar).forEach(p=>{
+      const pilUl = document.createElement('ul');
+      const pilLi = node(`<div><strong>${p}</strong></div>`);
+      const okrUl = document.createElement('ul');
+      (byPilar[p]||[]).forEach(o=>{
+        const okrLi = node(`<div>${o.objetivo} <span class="text-xs text-slate-500">(${o.status||'-'})</span></div>`);
+        const kUl = document.createElement('ul');
+        kpis.filter(k=> (k.okrPai||'') === o.objetivo).forEach(k=>{
+          const percent = k.valorAlvo ? Math.round((k.valorRealizado / k.valorAlvo)*100):0;
+          const kLi = node(`<div>${k.nome} <span class="text-xs text-slate-500">[${percent}%]</span></div>`);
+          kUl.appendChild(kLi);
+        });
+        okrLi.appendChild(kUl); okrUl.appendChild(okrLi);
+      });
+      pilLi.appendChild(okrUl); pilUl.appendChild(pilLi); topUl.appendChild(pilUl);
+    });
+    container.innerHTML=''; container.appendChild(topUl);
+  };
+  refresh();
+})();
+</script>

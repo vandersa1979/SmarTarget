@@ -27,6 +27,14 @@
 <a href="./kpis.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📊 KPIs</span></a>
 <a href="./associacoes.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Associações</span></a>
 <a href="./vinculos.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔗 Vínculos OKR-KPI</span></a>
+<h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Estratégia</h2>
+<a href="./okr-kpi-guia.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📚 Guia OKR × KPI</span></a>
+<a href="./canvas-swot.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧩 Canvas & SWOT</span></a>
+<a href="./bsc.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🧭 BSC</span></a>
+<a href="./checkins.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>✅ Check-ins</span></a>
+<a href="./acoes-corretivas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🛠️ Ações Corretivas</span></a>
+<a href="./alertas.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🔔 Alertas</span></a>
+<a href="./relatorios.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📑 Relatórios</span></a>
 <h2 class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-4">Análise</h2>
 <a href="./mapa-estrategico.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>🗺️ Mapa Estratégico</span></a>
 <a href="./dashboard.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-700"><span>📈 Dashboard</span></a>
@@ -45,13 +53,7 @@
                         <label for="nome" class="block text-sm font-medium text-slate-600">Nome da Equipe</label>
                         <input type="text" id="nome" placeholder="Ex: Equipe de Vendas" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" required />
                     </div>
-                    
-<div>
-  <label for="areaSelect" class="block text-sm font-medium text-slate-600">Área</label>
-  <select id="areaSelect" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" required></select>
-</div>
-<div class="text-right">
-
+                    <div class="text-right">
                         <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Salvar Equipe</button>
                     </div>
                 </form>
@@ -130,61 +132,5 @@
         // Initial Load
         renderTable();
     </script>
-
-        <script>
-        // /*EQUIPES_SCRIPT*/
-        (function(){
-          const form = document.getElementById('equipeForm');
-          const table = document.getElementById('equipeTable');
-          const areaSelect = document.getElementById('areaSelect');
-          let equipes = JSON.parse(localStorage.getItem('equipes')) || [];
-          let areas = JSON.parse(localStorage.getItem('departamentos')) || [];
-
-          function loadAreas(){
-            areaSelect.innerHTML = '<option value="" disabled selected>Selecione a Área</option>';
-            areas.forEach(a=> areaSelect.innerHTML += `<option value="${a.nome}">${a.nome}</option>`);
-          }
-
-          function render(){
-            table.innerHTML='';
-            equipes.forEach((e, idx)=>{
-              const row = table.insertRow();
-              row.className = 'bg-white border-b hover:bg-slate-50';
-              row.innerHTML = `
-                <td class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">${e.nome} <span class="text-xs text-slate-500">(${e.area||'—'})</span></td>
-                <td class="px-6 py-4 text-center">
-                  <button onclick="window._editEquipe(${idx})" class="font-medium text-blue-600 hover:underline mr-3">Editar</button>
-                  <button onclick="window._delEquipe(${idx})" class="font-medium text-red-600 hover:underline">Excluir</button>
-                </td>`;
-            });
-            localStorage.setItem('equipes', JSON.stringify(equipes));
-          }
-
-          window._editEquipe = function(idx){
-            const e = equipes[idx];
-            document.getElementById('nome').value = e.nome;
-            document.getElementById('editIndex').value = idx;
-            areaSelect.value = e.area || '';
-            window.scrollTo(0,0);
-          };
-          window._delEquipe = function(idx){ equipes.splice(idx,1); render(); };
-
-          form.addEventListener('submit', function(ev){
-            ev.preventDefault();
-            const nome = document.getElementById('nome').value.trim();
-            const area = areaSelect.value;
-            const idx = document.getElementById('editIndex').value;
-            if (!nome || !area){ alert('Preencha nome e área.'); return; }
-            const payload = { nome, area };
-            if (idx) equipes[parseInt(idx,10)] = payload; else equipes.push(payload);
-            document.getElementById('nome').value=''; document.getElementById('editIndex').value=''; areaSelect.value='';
-            render();
-          });
-
-          loadAreas();
-          render();
-        })();
-        </script>
-        
 </body>
 </html>
