@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="stylesheet" href="../assets/css/fix-smartarget.css">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mapa Estratégico - SmarTarget</title>
@@ -74,7 +75,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-100">
+<body class="bg-slate-100 has-sidebar">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
@@ -108,7 +109,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+        <main class="flex-1 ml-64 p-8 overflow-y-auto app-main">
             <h1 class="text-3xl font-bold text-slate-800 mb-6">Mapa Estratégico Visual</h1>
             <p class="text-slate-600 mb-8">Visualize o encadeamento de metas (top-down) da organização.</p>
             

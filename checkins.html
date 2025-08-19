@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="stylesheet" href="../assets/css/fix-smartarget.css">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CHECKINS</title>
@@ -12,7 +13,7 @@
         .sidebar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-slate-100">
+<body class="bg-slate-100 has-sidebar">
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-800 text-white flex flex-col p-4 fixed h-full overflow-y-auto sidebar">
@@ -48,7 +49,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-6 app-main ml-64">
 <h1 class="text-2xl font-bold mb-4">Check-ins</h1>
 <div class="bg-white p-4 rounded-xl border space-y-4">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
